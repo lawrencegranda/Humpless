@@ -1,0 +1,29 @@
+---
+# Members of your group.
+group:
+  - name: Lawrence Granda Zarzuela
+    netid: lg626
+  - name: Joyce Shen
+    netid: js3696
+  - name: Lukas Friedman
+    netid: lsf58
+# Your PM.
+pm:
+  name: James Kim
+  netid: jjk297
+# Set to false if you don't want your gallery entry to be public.
+publish: true
+# Pithy title
+title: "Humpless: no bumps along the way"
+# OK if this is a Cornell Github link, but public gallery viewers won't be able to see it.
+git-repo: "https://github.coecis.cornell.edu/lsf58/cs3110-final-project"
+# If you have no demo screencast, replace the url string with an empty string ""
+demo-video-url: ""
+# Write a short, attention-grabbing description of your project.
+desc: >
+  Humpless: no bumps along the way.
+  Our project is a simple and intuitive tool designed to help you manage your
+  tasks and stay organized. Similar to Google Calendar, our app allows you to
+  create, schedule, and prioritize tasks with ease. It will be implemented as
+  a CLI. It can help keep track of done/in-progress/todo tasks and organize
+  them by category, due date, and subtasks.
