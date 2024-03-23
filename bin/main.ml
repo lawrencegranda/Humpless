@@ -21,14 +21,18 @@ let truncate_str str =
   if String.length str <= max_width then str
   else String.sub str 0 (max_width - 3) ^ "..."
 
+(** [format_cell str] is [str] truncated by the max_width*)
 let format_cell str = Printf.sprintf "%-*s  " max_width (truncate_str str)
 
-let list_as_string headers =
-  String.trim
-    (List.fold_left (fun acc h -> acc ^ "\t" ^ format_cell h) "" headers)
+(** [list_as_string lst] is the elements of [lst] concatenated with a tab and
+    formatted*)
+let list_as_string lst =
+  String.trim (List.fold_left (fun acc e -> acc ^ "\t" ^ format_cell e) "" lst)
 
+(** [row_as_string rows i] is the row at index [i] as a string*)
 let row_as_string rows i = list_as_string (List.nth rows i)
 
+(** [rows_as_string rows] is each row of [rows] concactenated with a new line*)
 let rows_as_string rows =
   String.trim
     (List.fold_left (fun acc row -> acc ^ "\n" ^ list_as_string row) "" rows)
