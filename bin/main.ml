@@ -1,3 +1,6 @@
+(** [from_csv path] is a [string list list] of the contents of [path],
+with each comma separated value representing a unique element]
+    *)
 let from_csv path =
   let lines = Csv.load path in
   let headers, rows =
