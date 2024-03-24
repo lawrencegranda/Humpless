@@ -1,0 +1,14 @@
+To run Humpless, begin with installing some OPAM packages that the program will require: 
+
+$ opam update
+$ opam upgrade
+$ opam install ppx_inline_test csv ansiterminal
+
+Next, to run our program in the terminal, run:
+
+$ dune build 
+$ dune exec bin/main.exe
+
+To run our tests, use: 
+
+$ dune test
