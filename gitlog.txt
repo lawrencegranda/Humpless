@@ -1,0 +1,144 @@
+commit 853f5bfb71086a77a03f56a77cd6cd736a0f817f
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sat Mar 23 17:18:58 2024 -0400
+
+    Wrote YAML file
+
+commit 4880ffffdeafa571dbddb0e2ada2fb79dcb61863
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Sat Mar 23 16:57:46 2024 -0400
+
+    Complete full test suite for Table_ops
+
+commit a0d6c78119526eb3649be91983b9de0cfdf4fd31
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Sat Mar 23 16:57:16 2024 -0400
+
+    Change dependencies for opening csvs
+
+commit 4f8b9efb85e1b0557938acf40782d5581e343d20
+Merge: 1c3e0df 68d4a81
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sat Mar 23 16:28:48 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:lsf58/cs3110-final-project
+
+commit 1c3e0df35ca0e63195a964318d6c7ffecc1e27f6
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sat Mar 23 16:27:20 2024 -0400
+
+    Basic tests for table_ops
+
+commit 68d4a813359ce7c7e5821f0063fb2d96e084b54c
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Sat Mar 23 16:27:08 2024 -0400
+
+    Create a test for Table_ops
+
+commit 0adf01b091a2bbb0f79016f73e26270be4555cbe
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Sat Mar 23 16:26:46 2024 -0400
+
+    Add lib library to tests
+
+commit 2c7ff0b7a7edec29fd2dc23dca771bf757bed285
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Sat Mar 23 16:26:21 2024 -0400
+
+    Create dune file it ignore warnings, will delete later
+
+commit beeca8963d15918224a80df82082460930ece7a0
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Sat Mar 23 16:20:00 2024 -0400
+
+    Begin implementation of test suite for loading csvs
+    
+    - Create some tests
+    - Create test csv files
+
+commit 5870fa7fdaa37ad274e92a68a681a9e23c128c76
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sat Mar 23 16:18:01 2024 -0400
+
+    Refactored files
+    
+    - Made a table_ops compilation unit that handles all table operations
+    - main.ml uses table_ops
+
+commit 15de705a01cd6aaf7a2c1c131d21559a64ccbf01
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Sat Mar 23 16:10:54 2024 -0400
+
+    Add commenting specifications to functions in main.ml
+
+commit 8caa3bf0e24e7f042aa3692677211a3427d254dc
+Merge: 8cad48d 79fdd2f
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Sat Mar 23 16:05:50 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:lsf58/cs3110-final-project
+
+commit 8cad48d43a013128c74b2af888c5469662ce345d
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Sat Mar 23 16:05:16 2024 -0400
+
+    Add a comment spec to from_csv
+
+commit 79fdd2f9679d250a974746ddabfc7639b355c856
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sat Mar 23 16:04:24 2024 -0400
+
+    Format strings
+    
+    - Given a cell, truncate it and add ... if too long
+    - Do if for all cells
+
+commit b658a0d67ba49441b0ef81671f83fecbfb76de11
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Sat Mar 23 16:00:21 2024 -0400
+
+    Create functionality to create string from the rows
+
+commit b95de042b1cc1a309975df1140f654d8e32ce4e5
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sat Mar 23 15:44:36 2024 -0400
+
+    Write from_csv function
+    
+    - Load csv using CSV library
+
+commit e7756e7e3a6e178a9cca01f73c261a49835bc7bd
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Sat Mar 23 15:42:32 2024 -0400
+
+    Begin implementation for loading csv files
+
+commit 44482f21d274dcffeb94d68b440fcea81938a84e
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Sat Mar 23 15:37:23 2024 -0400
+
+    Create test csv file for testing prototype
+
+commit f5dac66bd16f7d205cea673c89918a6bcea5d5c4
+Author: Lawrence Granda <lg626@cornell.edu>
+Date:   Wed Mar 6 15:37:29 2024 -0500
+
+    Add my name to README.md
+
+commit a04b4f4432efe02972a1eab87aafe266fef417bd
+Author: js3696 <js3696@cornell.edu>
+Date:   Wed Mar 6 15:35:56 2024 -0500
+
+    Update README.md
+
+commit e07cb16136a82cb8cd4d0bcb302e84250fb233a0
+Author: Lukas Friedman <lukasfriedman27@gmail.com>
+Date:   Wed Mar 6 15:34:51 2024 -0500
+
+    Create README.md
+
+commit 059396fba068f6ee1faff0acdf9743611c3567d3
+Author: lsf58 <lsf58@cornell.edu>
+Date:   Wed Mar 6 15:32:13 2024 -0500
+
+    Initial commit
