@@ -34,3 +34,13 @@ let row_as_string rows i = list_as_string (List.nth rows i)
 let rows_as_string rows =
   String.trim
     (List.fold_left (fun acc row -> acc ^ "\n" ^ list_as_string row) "" rows)
+
+(** Adds a task *)
+let add_task name description date category path =
+  let line =
+    name ^ "," ^ description ^ "," ^ date ^ "," ^ "00:00:00" ^ "," ^ category
+    ^ "," ^ "Not started"
+  in
+  let oc = open_out_gen [ Open_append; Open_creat ] 0o666 path in
+  Printf.fprintf oc "\n%s\n" line;
+  close_out oc
