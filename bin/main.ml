@@ -19,7 +19,8 @@ let print_csv path =
   print_endline (row_as_string rows 0);
   print_endline (rows_as_string rows)
 
-let path = "test.csv"
+let path =
+  "data/" ^ if Array.length Sys.argv > 1 then Sys.argv.(1) else "test.csv"
 
 let () =
   print_csv path;
