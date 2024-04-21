@@ -29,12 +29,12 @@ let save_tasks table =
     List.map
       (fun task ->
         [
-          Task.get_name task;
-          Task.get_description task;
-          Task.get_due_date task;
-          Task.get_time task;
-          Task.get_category task;
-          Task.get_progress task;
+          Task.name task;
+          Task.description task;
+          Task.due_date task;
+          Task.time task;
+          Task.category task;
+          Task.progress task;
         ])
       !(table.data)
   in

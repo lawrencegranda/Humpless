@@ -1,12 +1,28 @@
+type t = {
+  mutable name : string;
+  mutable description : string;
+  mutable due_date : string;
+  mutable time : string;
+  mutable category : string;
+  mutable progress : string; (* "done" / "in-progress" / "todo" *)
+}
+(**AF: The record
+   [{name = n; description = d; due_date = date; time = t; category = c; progress = p}]
+   represents a task with name [n], description [d], due_date [date], etc. *)
+(**RI: The fields in [due_date], [time], and [progress] must be formatted
+  (YYYY-MM-DD), (HH:MM:SS), and be one of ["done"; "in-progress"; "todo"]*)
+
 exception InvalidDateFormat
 exception InvalidTimeFormat
 exception InvalidProgress
 
-(* Function to check if progress is valid *)
+(**[is_valid_progress p] is [true] when [p] is a valid progress status. Ex:
+   [is_valid_progress p] is [true] if [p] is ["in-progress"]*)
 let is_valid_progress progress =
   List.mem progress [ "done"; "in-progress"; "todo" ]
 
-(** Function to validate date format (YYYY-MM-DD) *)
+(**[is_valid_date d] is [true] if [d] is a valid date in the (YYYY-MM-DD)
+   format. Raises [InvalidDateFormat] otherwise.*)
 let is_valid_date date_str =
   let date_str = String.trim date_str in
   let len = String.length date_str in
@@ -19,7 +35,8 @@ let is_valid_date date_str =
       year >= 1000 && 1 <= month && month <= 12 && 1 <= day && day <= 31
     with _ -> raise InvalidDateFormat
 
-(** Function to validate time format (HH:MM:SS) *)
+(**[is_valid_time t] is [true] if [t] is a valid time in the (HH:MM:SS) format.
+   Raises [InvalidTimeFormat] otherwise.*)
 let is_valid_time time_str =
   let time_str = String.trim time_str in
   let len = String.length time_str in
@@ -33,23 +50,13 @@ let is_valid_time time_str =
       && seconds <= 59
     with _ -> raise InvalidTimeFormat
 
-type t = {
-  mutable name : string;
-  mutable description : string;
-  mutable due_date : string;
-      (* format needs to be defined based on your needs *)
-  mutable time : string; (* format needs to be defined based on your needs *)
-  mutable category : string;
-  mutable progress : string; (* "done" / "in-progress" / "todo" *)
-}
-
 (* Getter functions *)
-let get_name task = task.name
-let get_description task = task.description
-let get_due_date task = task.due_date
-let get_time task = task.time
-let get_category task = task.category
-let get_progress task = task.progress
+let name task = task.name
+let description task = task.description
+let due_date task = task.due_date
+let time task = task.time
+let category task = task.category
+let progress task = task.progress
 
 (* Setter functions *)
 let set_name task new_name = task.name <- String.trim new_name

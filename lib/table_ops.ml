@@ -1,6 +1,3 @@
-(** [from_csv path] is a [string list list] of the contents of [path],
-with each comma separated value representing a unique element]
-    *)
 let from_csv path =
   let lines = Csv.load path in
   let headers, rows =
@@ -22,20 +19,15 @@ let truncate_str str =
 (** [format_cell str] is [str] truncated by the max_width*)
 let format_cell str = Printf.sprintf "%-*s  " max_width (truncate_str str)
 
-(** [list_as_string lst] is the elements of [lst] concatenated with a tab and
-    formatted*)
 let list_as_string lst =
   String.trim (List.fold_left (fun acc e -> acc ^ "\t" ^ format_cell e) "" lst)
 
-(** [row_as_string rows i] is the row at index [i] as a string*)
 let row_as_string rows i = list_as_string (List.nth rows i)
 
-(** [rows_as_string rows] is each row of [rows] concactenated with a new line*)
 let rows_as_string rows =
   String.trim
     (List.fold_left (fun acc row -> acc ^ "\n" ^ list_as_string row) "" rows)
 
-(** Adds a task *)
 let add_task name description date category path =
   let line =
     name ^ "," ^ description ^ "," ^ date ^ "," ^ "00:00:00" ^ "," ^ category
