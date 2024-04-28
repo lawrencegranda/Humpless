@@ -1,11 +1,4 @@
-type t = {
-  mutable name : string;
-  mutable description : string;
-  mutable due_date : string;
-  mutable time : string;
-  mutable category : string;
-  mutable progress : string;
-}
+type t
 (**[t] is the type of a task *)
 
 exception InvalidDateFormat
