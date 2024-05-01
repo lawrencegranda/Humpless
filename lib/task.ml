@@ -8,9 +8,9 @@ type t = {
 }
 (**AF: The record
    [{name = n; description = d; due_date = date; time = t; category = c; progress = p}]
-   represents a task with name [n], description [d], due_date [date], etc. *)
-(**RI: The fields in [due_date], [time], and [progress] must be formatted
-  (YYYY-MM-DD), (HH:MM:SS), and be one of ["done"; "in-progress"; "todo"]*)
+   represents a task with name [n], description [d], due_date [date], etc. RI:
+   The fields in [due_date], [time], and [progress] must be formatted
+   (YYYY-MM-DD), (HH:MM:SS), and be one of ["done"; "in-progress"; "todo"]*)
 
 exception InvalidDateFormat
 exception InvalidTimeFormat
@@ -19,6 +19,7 @@ exception InvalidProgress
 (**[is_valid_progress p] is [true] when [p] is a valid progress status. Ex:
    [is_valid_progress p] is [true] if [p] is ["in-progress"]*)
 let is_valid_progress progress =
+  let progress = String.trim (String.lowercase_ascii progress) in
   List.mem progress [ "done"; "in-progress"; "todo" ]
 
 (**[is_valid_date d] is [true] if [d] is a valid date in the (YYYY-MM-DD)
@@ -76,7 +77,7 @@ let set_category task new_category = task.category <- String.trim new_category
 
 let set_progress task new_progress =
   if is_valid_progress new_progress then
-    task.progress <- String.trim new_progress
+    task.progress <- String.lowercase_ascii (String.trim new_progress)
   else raise InvalidProgress
 
 let create_task name description due_date time category progress =
