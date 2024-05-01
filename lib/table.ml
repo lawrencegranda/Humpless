@@ -1,5 +1,5 @@
 (** [max_width] is the maximum number of characters to be printed for a value *)
-let max_width = 15
+let max_width = 30
 
 (** [truncate_str str] is [str] with [max_width] characters and appends ["..."]
     if [str] is longer (replaces last three chars with ["..."]). *)
@@ -8,22 +8,18 @@ let truncate_str str =
   else String.sub str 0 (max_width - 3) ^ "..."
 
 (** [format_cell str] is [str] truncated by the max_width*)
-let format_cell str = Printf.sprintf "%-*s  " max_width (truncate_str str)
+let format_cell str = Printf.sprintf "%-*s" max_width (truncate_str str)
 
 let list_as_string lst =
-  String.trim (List.fold_left (fun acc e -> acc ^ "\t" ^ format_cell e) "" lst)
-
-let row_as_string rows i = list_as_string (List.nth rows i)
+  String.trim
+    (List.fold_left (fun acc e -> acc ^ "    " ^ format_cell e) "" lst)
 
 let rows_as_string rows =
   String.trim
     (List.fold_left (fun acc row -> acc ^ "\n" ^ list_as_string row) "" rows)
 
-(* - table operations: *)
 (* - filtering *)
-(* - delete tasks *)
 (* - check a task (use built-in task function, to be coded) *)
-(* - modify specific task fields *)
 (* - encapsulate table *)
 (* - comment *)
 
@@ -33,6 +29,7 @@ type data = {
 }
 
 type comparator = data -> data -> int
+type predicate = data -> bool
 
 type sorting =
   | Name
@@ -44,9 +41,10 @@ type sorting =
   | Other of comparator
 
 type table = {
-  mutable path : string option;
+  path : string option;
   data : data list ref;
   mutable sorting : sorting;
+  mutable filter : predicate;
 }
 
 exception InvalidTaskIndex
@@ -93,9 +91,88 @@ let save_tasks table =
         :: data)
 
 (** Function to filter tasks based on a predicate *)
-let filter_tasks table predicate =
-  let data = List.filter predicate !(table.data) in
-  { path = None; data = ref data; sorting = Name }
+let filter_tasks_with_predicate table (predicate : predicate) =
+  table.filter <- predicate
+
+let reset_filter table =
+  let all _ = true in
+  filter_tasks_with_predicate table all
+
+let filter_by_name table name =
+  let name = String.trim (String.lowercase_ascii name) in
+  let predicate data =
+    let task = data.task in
+    let task_name = String.trim (String.lowercase_ascii (Task.name task)) in
+    Base.String.is_substring task_name ~substring:name
+  in
+  filter_tasks_with_predicate table predicate
+
+let filter_by_description table description =
+  let description = String.trim (String.lowercase_ascii description) in
+  let predicate data =
+    let task = data.task in
+    let task_description =
+      String.trim (String.lowercase_ascii (Task.description task))
+    in
+    Base.String.is_substring task_description ~substring:description
+  in
+  filter_tasks_with_predicate table predicate
+
+let filter_due_after table date =
+  let date = String.trim (String.lowercase_ascii date) in
+  let predicate data =
+    let task = data.task in
+    let task_date = String.trim (String.lowercase_ascii (Task.due_date task)) in
+    String.compare date task_date >= 0
+  in
+  filter_tasks_with_predicate table predicate
+
+let filter_due_before table date =
+  let date = String.trim (String.lowercase_ascii date) in
+  let predicate data =
+    let task = data.task in
+    let task_date = String.trim (String.lowercase_ascii (Task.due_date task)) in
+    String.compare date task_date <= 0
+  in
+  filter_tasks_with_predicate table predicate
+
+let filter_by_category table category =
+  let category = String.trim (String.lowercase_ascii category) in
+  let predicate data =
+    let task = data.task in
+    let task_category =
+      String.trim (String.lowercase_ascii (Task.category task))
+    in
+    Base.String.is_substring task_category ~substring:category
+  in
+  filter_tasks_with_predicate table predicate
+
+let filter_by_progress table progress =
+  let progress = String.trim (String.lowercase_ascii progress) in
+  let predicate data =
+    let task = data.task in
+    let task_progress =
+      String.trim (String.lowercase_ascii (Task.progress task))
+    in
+    Base.String.is_substring task_progress ~substring:progress
+  in
+  filter_tasks_with_predicate table predicate
+
+let exclude_progress table progress =
+  let progress = String.trim (String.lowercase_ascii progress) in
+  let predicate data =
+    let task = data.task in
+    let task_progress =
+      String.trim (String.lowercase_ascii (Task.progress task))
+    in
+    not (Base.String.is_substring task_progress ~substring:progress)
+  in
+  filter_tasks_with_predicate table predicate
+
+(** Function to filter tasks based on a predicate *)
+let filter_default table =
+  let predicate = table.filter in
+  List.filter predicate !(table.data)
 
 (** Function to sort tasks based on a comparison function *)
 let sort_table_with_comparator table (compare : comparator) =
@@ -107,10 +184,6 @@ let sort_table_with_comparator table (compare : comparator) =
 let sort_table table (compare : comparator) =
   sort_table_with_comparator table compare;
   table.sorting <- Other compare
-
-let sort_by_index table =
-  let compare d1 d2 = d1.idx - d2.idx in
-  sort_table_with_comparator table compare
 
 let sort_by_name table =
   let compare d1 d2 =
@@ -200,13 +273,15 @@ let make_table path =
   let tasks = ref [] in
   (try tasks := load_tasks path with _ -> ());
   let data = ref (List.mapi (fun idx task -> { idx; task }) !tasks) in
-  let table = { path = Some path; data; sorting = Name } in
+  let table =
+    { path = Some path; data; sorting = Name; filter = (fun _ -> true) }
+  in
   sort_default table;
   table
 
 (** Function to push a new task to the data list *)
 let push_task table new_task =
-  sort_by_index table;
+  sort_default table;
   table.data :=
     { idx = List.length !(table.data); task = new_task } :: !(table.data);
   sort_default table
@@ -322,6 +397,7 @@ let set_progress table index progress =
 
 let print_table table =
   sort_default table;
+  let data = filter_default table in
   let data =
     List.map
       (fun data ->
@@ -335,7 +411,7 @@ let print_table table =
           Task.category task;
           Task.progress task;
         ])
-      !(table.data)
+      data
   in
   let str =
     rows_as_string
