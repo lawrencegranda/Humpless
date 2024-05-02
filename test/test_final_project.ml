@@ -22,7 +22,7 @@ let tests =
         ~printer:(fun x -> x) );
     ("empty row as string" >:: fun _ -> assert_equal "" (row_as_string [ [] ] 0));
     ( "test2.csv row as string" >:: fun _ ->
-      assert_equal "Mathhomework2024-03-2516:00:00CollegeNotstarted"
+      assert_equal "Mathhomework2024-03-2516:00:00Collegetodo"
         (remove_spaces (row_as_string rows 0))
         ~printer:(fun x -> x) );
     ( "test2.csv header as string" >:: fun _ ->
@@ -35,10 +35,10 @@ let tests =
         ~printer:(fun x -> x) );
     ( "test2.csv rows as string" >:: fun _ ->
       assert_equal
-        "Mathhomework2024-03-2516:00:00CollegeNotstarted\n\
-         Getgasforthecar2024-03-2320:00:00PersonalNotstarted\n\
-         3110MS2typereport2024-03-2823:59:59CollegeInprogress\n\
-         3110prelimlectures9-182024-03-2211:30:00TestsDone"
+        "Mathhomework2024-03-2516:00:00Collegetodo\n\
+         Getgasforthecar2024-03-2320:00:00Personaltodo\n\
+         3110prelimlectures9-182024-03-2211:30:00Testsdone\n\
+         3110MS2typereport2024-03-2823:59:59Collegein-progress"
         (remove_spaces (rows_as_string rows))
         ~printer:(fun x -> x) );
   ]
