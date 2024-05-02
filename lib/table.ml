@@ -50,6 +50,7 @@ exception InvalidTaskIndex
 exception InvalidDateFormat
 exception InvalidTimeFormat
 exception InvalidProgress
+exception InvalidPermissions of string
 
 (** Function to read tasks from a CSV file *)
 let load_tasks path =
@@ -79,7 +80,7 @@ let load_tasks path =
 let save_tasks table =
   match table.path with
   | None -> ()
-  | Some path ->
+  | Some path -> (
       let data =
         List.map
           (fun data ->
@@ -94,9 +95,13 @@ let save_tasks table =
             ])
           !(table.data)
       in
-      Csv.save path
-        ([ "Name"; "Description"; "Date"; "Time"; "Category"; "Progress" ]
-        :: data)
+      try
+        Csv.save path
+          ([ "Name"; "Description"; "Date"; "Time"; "Category"; "Progress" ]
+          :: data)
+      with
+      | Sys_error m -> raise (InvalidPermissions m)
+      | e -> raise e)
 
 (** Function to filter tasks based on a predicate *)
 let filter_tasks_with_predicate table (predicate : predicate) =
@@ -287,12 +292,17 @@ let sort_default table =
   | Progress -> sort_by_progress table
   | Other compare -> sort_table table compare
 
-let make_table path =
+let make_table ?(autosave = true) path =
   let tasks = ref [] in
   (try tasks := load_tasks path with _ -> ());
   let data = ref (List.mapi (fun idx task -> { idx; task }) !tasks) in
   let table =
-    { path = Some path; data; sorting = Name; filter = (fun _ -> true) }
+    {
+      path = (if autosave then Some path else None);
+      data;
+      sorting = Name;
+      filter = (fun _ -> true);
+    }
   in
   sort_default table;
   table

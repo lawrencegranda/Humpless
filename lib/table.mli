@@ -4,6 +4,7 @@ exception InvalidTaskIndex
 exception InvalidDateFormat
 exception InvalidTimeFormat
 exception InvalidProgress
+exception InvalidPermissions of string
 
 val reset_filter : table -> unit
 (** [reset_filter table] removes any applied filters on [table]. *)
@@ -50,7 +51,7 @@ val sort_by_category : table -> unit
 val sort_by_progress : table -> unit
 (** [sort_by_progress table] sorts tasks in [table] by progress. *)
 
-val make_table : string -> table
+val make_table : ?autosave:bool -> string -> table
 (** [make_table path] creates a new table with tasks loaded from [path]. *)
 
 val add_task :
