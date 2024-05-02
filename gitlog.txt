@@ -1,5 +1,212 @@
-commit 853f5bfb71086a77a03f56a77cd6cd736a0f817f
+commit 0fe677e800cc536082bcb3c6e8cc4eda1f066c34
 Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Thu May 2 14:21:51 2024 -0400
+
+    Add a demo for the code in the tests.
+
+commit 22f8f80b3172b801b06e626b95661b1fefe812ad
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Thu May 2 14:21:33 2024 -0400
+
+    Add optional autosave and permission exception.
+    
+    - Write access not required, can pass a `~autosave:false` flag to not save.
+    - If no write access, raise an exception.
+
+commit ad09011e1df9ce16731f2f7183e7c2d9444d52be
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Thu May 2 14:01:03 2024 -0400
+
+    Change one line.
+    
+    - Need to update tests still.
+
+commit 65107cc920117ecf246712ec94317d06123610b4
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Thu May 2 13:50:15 2024 -0400
+
+    Support empty time defaults to 23:59:59.
+    
+    - Alternative: 00:00:00
+
+commit 98249d54221792e5db74668ef7dda3e8d2c5de22
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Thu May 2 13:49:03 2024 -0400
+
+    Support exceptions and change filtering.
+    
+    - Filtering by date was reversed.
+    - Encapsulate task exceptions into table exceptions.
+
+commit 73e95a94c26d1c83bd8c9f9850bdf4eaa420e318
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Thu May 2 13:47:47 2024 -0400
+
+    Sort csv.
+
+commit ff5e6e3b7e48e6ff8733ea41c51372dfd4bfe28d
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Wed May 1 16:29:03 2024 -0400
+
+    Add basic specs.
+
+commit b94c5de2c59e39b25ac0f052f184269d602bea7e
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Wed May 1 16:28:55 2024 -0400
+
+    Add checking for task progress.
+
+commit 58631fabf83bf66fd616708951e0b907fa8e807b
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Wed May 1 16:16:47 2024 -0400
+
+    Implement filtering.
+    
+    - Filter by different fields.
+    - Default filtering too.
+
+commit 60e64750808bce28efc5779859789c92eb3db85f
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Wed May 1 16:16:15 2024 -0400
+
+    Encapsulate table module.
+
+commit f53d2384fea480921a79d0502987653ff02b0004
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Wed May 1 15:10:07 2024 -0400
+
+    Implement multiple operations.
+    
+    - Sorting by all fields and custom.
+    - Printing.
+    - Editing and modifying tasks.
+
+commit a62526b1e11ddda7240a80d3f06919d0cef3e522
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Mon Apr 29 22:03:09 2024 -0400
+
+    Support printing.
+    
+    - Add sorting.
+    - Manage in place operations.
+
+commit efc1689f1ad1d7c77a8e49a6e5455558dff86ccf
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Mon Apr 29 22:02:22 2024 -0400
+
+    Reformat csvs.
+    
+    - Change progress format.
+
+commit 301b12b78d03a7ca2f09855dfc686436466f0d4e
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Mon Apr 29 22:01:59 2024 -0400
+
+    Update todos.
+
+commit 06c61296cbcfb4990b528d69f366a012b139452c
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sun Apr 28 17:36:43 2024 -0400
+
+    Update to-do list
+
+commit 8255f9b63e9dc41a60247211fec986c91b15ab29
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sun Apr 28 17:36:30 2024 -0400
+
+    Encapsulate task data abstraction
+
+commit c1f307f86468bde67c091bd02a0b412b729560db
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Sun Apr 21 13:54:26 2024 -0400
+
+    Encapsulate Task obj
+
+commit 25047abc5bcea25ae93cad31c42f6cb344158101
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri Apr 19 11:40:23 2024 -0400
+
+    Todo task list.
+
+commit b7d4ec50b62b0126c778e6cd506bb4284db32c04
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri Apr 19 11:27:17 2024 -0400
+
+    Make a table module.
+    
+    - Record.
+    - Not yet encapsulated.
+
+commit 6c108b848a6eeee0279583fccf2cacd2071c85b8
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri Apr 19 11:27:02 2024 -0400
+
+    Make a task module.
+    
+    - Record.
+    - Not yet encapsulated.
+
+commit e605c29737668c81fdfffc0ee00453371a783633
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Wed Apr 10 16:07:59 2024 -0400
+
+    Initial csv.
+
+commit 1253a426fe3d8971c7c60d094d9e0aaa0696b4c3
+Merge: 19498a6 c3babcd
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Wed Apr 10 14:15:37 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:lsf58/cs3110-final-project
+
+commit 19498a6ead28b76458bbf804471e6a6da8322153
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Wed Apr 10 14:13:51 2024 -0400
+
+    Support task addition.
+    
+    - Use Stdlib functions to print to csv.
+
+commit c3babcdc40bdd0a1c6418564f0e82118145e2f90
+Merge: 51e69e3 fd156e8
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Wed Apr 10 13:43:21 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:lsf58/cs3110-final-project
+
+commit 51e69e31e9667038adccbb55b2f4e2619a06f0c9
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Wed Apr 10 13:41:27 2024 -0400
+
+    Enable use of custom csvs
+
+commit fd156e867cf76bd263cdba62994842550f51c282
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sun Mar 24 18:26:21 2024 -0400
+
+    Updated INSTALL manual
+
+commit 44bfe3510274d1cc6df0210a0a3f92dc2c63549c
+Merge: a543c3e ffee520
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sun Mar 24 18:22:39 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:lsf58/cs3110-final-project
+
+commit a543c3e9f35fe7476730d2103a986ddbd8cfd4b2
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sun Mar 24 18:20:55 2024 -0400
+
+    Commit gitlog and INSTALL manual
+
+commit ffee520b794a77ce80e1dbc2c2c5b2dbdaabdb5d
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Sun Mar 24 00:36:53 2024 -0400
+
+    Add INSTALL.txt instructions
+
+commit 853f5bfb71086a77a03f56a77cd6cd736a0f817f
+Author: Lawrence Granda Zarzuela <lawrencegranda@gmail.com>
 Date:   Sat Mar 23 17:18:58 2024 -0400
 
     Wrote YAML file
@@ -18,13 +225,13 @@ Date:   Sat Mar 23 16:57:16 2024 -0400
 
 commit 4f8b9efb85e1b0557938acf40782d5581e343d20
 Merge: 1c3e0df 68d4a81
-Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Author: Lawrence Granda Zarzuela <lawrencegranda@gmail.com>
 Date:   Sat Mar 23 16:28:48 2024 -0400
 
     Merge branch 'main' of github.coecis.cornell.edu:lsf58/cs3110-final-project
 
 commit 1c3e0df35ca0e63195a964318d6c7ffecc1e27f6
-Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Author: Lawrence Granda Zarzuela <lawrencegranda@gmail.com>
 Date:   Sat Mar 23 16:27:20 2024 -0400
 
     Basic tests for table_ops
@@ -52,12 +259,12 @@ Author: lsf58 <lsf58@cornell.edu>
 Date:   Sat Mar 23 16:20:00 2024 -0400
 
     Begin implementation of test suite for loading csvs
-    
-    - Create some tests
-    - Create test csv files
+    Begin implementation of test suite for loading csvs-Create some tests
+    -Create test csv files
+     Please enter the commit message for your changes. Lines starting
 
 commit 5870fa7fdaa37ad274e92a68a681a9e23c128c76
-Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Author: Lawrence Granda Zarzuela <lawrencegranda@gmail.com>
 Date:   Sat Mar 23 16:18:01 2024 -0400
 
     Refactored files
@@ -85,7 +292,7 @@ Date:   Sat Mar 23 16:05:16 2024 -0400
     Add a comment spec to from_csv
 
 commit 79fdd2f9679d250a974746ddabfc7639b355c856
-Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Author: Lawrence Granda Zarzuela <lawrencegranda@gmail.com>
 Date:   Sat Mar 23 16:04:24 2024 -0400
 
     Format strings
@@ -100,7 +307,7 @@ Date:   Sat Mar 23 16:00:21 2024 -0400
     Create functionality to create string from the rows
 
 commit b95de042b1cc1a309975df1140f654d8e32ce4e5
-Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Author: Lawrence Granda Zarzuela <lawrencegranda@gmail.com>
 Date:   Sat Mar 23 15:44:36 2024 -0400
 
     Write from_csv function
@@ -120,7 +327,7 @@ Date:   Sat Mar 23 15:37:23 2024 -0400
     Create test csv file for testing prototype
 
 commit f5dac66bd16f7d205cea673c89918a6bcea5d5c4
-Author: Lawrence Granda <lg626@cornell.edu>
+Author: Lawrence Granda <lawrencegranda@gmail.com>
 Date:   Wed Mar 6 15:37:29 2024 -0500
 
     Add my name to README.md
