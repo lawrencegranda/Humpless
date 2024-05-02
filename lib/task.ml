@@ -70,7 +70,8 @@ let set_due_date task new_due_date =
   else raise InvalidDateFormat
 
 let set_time task new_time =
-  if is_valid_time new_time then task.time <- String.trim new_time
+  if String.trim new_time = "" then task.time <- "23:59:59"
+  else if is_valid_time new_time then task.time <- String.trim new_time
   else raise InvalidTimeFormat
 
 let set_category task new_category = task.category <- String.trim new_category
