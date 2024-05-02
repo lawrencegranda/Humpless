@@ -1,6 +1,9 @@
 type table
 
 exception InvalidTaskIndex
+exception InvalidDateFormat
+exception InvalidTimeFormat
+exception InvalidProgress
 
 val reset_filter : table -> unit
 (** [reset_filter table] removes any applied filters on [table]. *)

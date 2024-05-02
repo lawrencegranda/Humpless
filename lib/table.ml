@@ -1,5 +1,5 @@
 (** [max_width] is the maximum number of characters to be printed for a value *)
-let max_width = 30
+let max_width = 22
 
 (** [truncate_str str] is [str] with [max_width] characters and appends ["..."]
     if [str] is longer (replaces last three chars with ["..."]). *)
@@ -11,8 +11,7 @@ let truncate_str str =
 let format_cell str = Printf.sprintf "%-*s" max_width (truncate_str str)
 
 let list_as_string lst =
-  String.trim
-    (List.fold_left (fun acc e -> acc ^ "    " ^ format_cell e) "" lst)
+  String.trim (List.fold_left (fun acc e -> acc ^ "   " ^ format_cell e) "" lst)
 
 let rows_as_string rows =
   String.trim
@@ -48,6 +47,9 @@ type table = {
 }
 
 exception InvalidTaskIndex
+exception InvalidDateFormat
+exception InvalidTimeFormat
+exception InvalidProgress
 
 (** Function to read tasks from a CSV file *)
 let load_tasks path =
@@ -63,8 +65,14 @@ let load_tasks path =
   else
     List.map
       (fun row ->
-        Task.create_task (List.nth row 0) (List.nth row 1) (List.nth row 2)
-          (List.nth row 3) (List.nth row 4) (List.nth row 5))
+        try
+          Task.create_task (List.nth row 0) (List.nth row 1) (List.nth row 2)
+            (List.nth row 3) (List.nth row 4) (List.nth row 5)
+        with
+        | Task.InvalidDateFormat -> raise InvalidDateFormat
+        | Task.InvalidTimeFormat -> raise InvalidTimeFormat
+        | Task.InvalidProgress -> raise InvalidProgress
+        | e -> raise e)
       rows
 
 (** Function to write tasks to a CSV file *)
@@ -123,7 +131,7 @@ let filter_due_after table date =
   let predicate data =
     let task = data.task in
     let task_date = String.trim (String.lowercase_ascii (Task.due_date task)) in
-    String.compare date task_date >= 0
+    String.compare date task_date <= 0
   in
   filter_tasks_with_predicate table predicate
 
@@ -132,7 +140,7 @@ let filter_due_before table date =
   let predicate data =
     let task = data.task in
     let task_date = String.trim (String.lowercase_ascii (Task.due_date task)) in
-    String.compare date task_date <= 0
+    String.compare date task_date >= 0
   in
   filter_tasks_with_predicate table predicate
 
@@ -249,12 +257,22 @@ let sort_by_category table =
 let sort_by_progress table =
   let compare d1 d2 =
     let task1 = d1.task in
-    let progress1 = Task.progress task1 in
+    let progress1 =
+      match Task.progress task1 with
+      | "todo" -> 0
+      | "in-progress" -> 1
+      | "done" -> 2
+      | _ -> 3
+    in
     let task2 = d2.task in
-    let progress2 = Task.progress task2 in
-    String.compare
-      (String.uppercase_ascii progress1)
-      (String.uppercase_ascii progress2)
+    let progress2 =
+      match Task.progress task2 with
+      | "todo" -> 0
+      | "in-progress" -> 1
+      | "done" -> 2
+      | _ -> 3
+    in
+    progress1 - progress2
   in
   sort_table_with_comparator table compare;
   table.sorting <- Progress
@@ -289,7 +307,11 @@ let push_task table new_task =
 (** Function to add a new task to the table *)
 let add_task table name description due_date time category progress =
   let task =
-    Task.create_task name description due_date time category progress
+    try Task.create_task name description due_date time category progress with
+    | Task.InvalidDateFormat -> raise InvalidDateFormat
+    | Task.InvalidTimeFormat -> raise InvalidTimeFormat
+    | Task.InvalidProgress -> raise InvalidProgress
+    | e -> raise e
   in
   push_task table task
 
@@ -321,7 +343,11 @@ let set_name table index name =
         let task = data.task in
         if data.idx = index then
           (* Update the task with the new name at the target index *)
-          Task.set_name task name)
+          try Task.set_name task name with
+          | Task.InvalidDateFormat -> raise InvalidDateFormat
+          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
+          | Task.InvalidProgress -> raise InvalidProgress
+          | e -> raise e)
       !(table.data);
   save_tasks table
 
@@ -335,7 +361,11 @@ let set_description table index description =
         let task = data.task in
         if data.idx = index then
           (* Update the task with the new description at the target index *)
-          Task.set_description task description)
+          try Task.set_description task description with
+          | Task.InvalidDateFormat -> raise InvalidDateFormat
+          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
+          | Task.InvalidProgress -> raise InvalidProgress
+          | e -> raise e)
       !(table.data);
   save_tasks table
 
@@ -349,7 +379,11 @@ let set_due_date table index due_date =
         let task = data.task in
         if data.idx = index then
           (* Update the task with the new due date at the target index *)
-          Task.set_due_date task due_date)
+          try Task.set_due_date task due_date with
+          | Task.InvalidDateFormat -> raise InvalidDateFormat
+          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
+          | Task.InvalidProgress -> raise InvalidProgress
+          | e -> raise e)
       !(table.data);
   save_tasks table
 
@@ -363,7 +397,11 @@ let set_time table index time =
         let task = data.task in
         if data.idx = index then
           (* Update the task with the new time at the target index *)
-          Task.set_time task time)
+          try Task.set_time task time with
+          | Task.InvalidDateFormat -> raise InvalidDateFormat
+          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
+          | Task.InvalidProgress -> raise InvalidProgress
+          | e -> raise e)
       !(table.data);
   save_tasks table
 
@@ -377,7 +415,11 @@ let set_category table index category =
         let task = data.task in
         if data.idx = index then
           (* Update the task with the new category at the target index *)
-          Task.set_category task category)
+          try Task.set_category task category with
+          | Task.InvalidDateFormat -> raise InvalidDateFormat
+          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
+          | Task.InvalidProgress -> raise InvalidProgress
+          | e -> raise e)
       !(table.data);
   save_tasks table
 
@@ -391,7 +433,11 @@ let set_progress table index progress =
         let task = data.task in
         if data.idx = index then
           (* Update the task with the new progress at the target index *)
-          Task.set_progress task progress)
+          try Task.set_progress task progress with
+          | Task.InvalidDateFormat -> raise InvalidDateFormat
+          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
+          | Task.InvalidProgress -> raise InvalidProgress
+          | e -> raise e)
       !(table.data);
   save_tasks table
 
