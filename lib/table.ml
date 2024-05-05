@@ -206,7 +206,8 @@ let exclude_progress table progress =
   in
   filter_tasks_with_predicate table predicate
 
-(** Function to filter tasks based on a predicate *)
+(** [filter_default table] is a list of [data] where each [data] included
+    respects the default filter of the [table.filter] *)
 let filter_default table =
   let predicate = table.filter in
   List.filter predicate !(table.data)
@@ -218,6 +219,8 @@ let sort_table_with_comparator table (compare : comparator) =
   table.data := data;
   save_tasks table
 
+(** [sort_table table comparator] sorts tasks according to a custom compartor
+    function. *)
 let sort_table table (compare : comparator) =
   sort_table_with_comparator table compare;
   table.sorting <- Other compare
@@ -306,6 +309,8 @@ let sort_by_progress table =
   sort_table_with_comparator table compare;
   table.sorting <- Progress
 
+(** [sort_default table] resorts the table according to the default
+    [table.filter]. *)
 let sort_default table =
   match table.sorting with
   | Name -> sort_by_name table
@@ -343,7 +348,6 @@ let push_task table new_task =
     { idx = List.length !(table.data); task = new_task } :: !(table.data);
   sort_default table
 
-(** Function to add a new task to the table *)
 let add_task table name description due_date time category progress =
   let task =
     try Task.create_task name description due_date time category progress with
@@ -354,7 +358,6 @@ let add_task table name description due_date time category progress =
   in
   push_task table task
 
-(** Function to remove a task by index *)
 let remove_task table index =
   if index < 0 || index >= List.length !(table.data) then raise InvalidTaskIndex
   else
@@ -372,7 +375,6 @@ let remove_task table index =
     table.data := !new_data;
     sort_default table
 
-(** Function to set a task's name *)
 let set_name table index name =
   if index < 0 || index >= List.length !(table.data) then raise InvalidTaskIndex
   else
@@ -390,7 +392,6 @@ let set_name table index name =
       !(table.data);
   save_tasks table
 
-(** Function to set a task's description *)
 let set_description table index description =
   if index < 0 || index >= List.length !(table.data) then raise InvalidTaskIndex
   else
@@ -408,7 +409,6 @@ let set_description table index description =
       !(table.data);
   save_tasks table
 
-(** Function to set a task's due date *)
 let set_due_date table index due_date =
   if index < 0 || index >= List.length !(table.data) then raise InvalidTaskIndex
   else
@@ -426,7 +426,6 @@ let set_due_date table index due_date =
       !(table.data);
   save_tasks table
 
-(** Function to set a task's time *)
 let set_time table index time =
   if index < 0 || index >= List.length !(table.data) then raise InvalidTaskIndex
   else
@@ -444,7 +443,6 @@ let set_time table index time =
       !(table.data);
   save_tasks table
 
-(** Function to set a task's category *)
 let set_category table index category =
   if index < 0 || index >= List.length !(table.data) then raise InvalidTaskIndex
   else
@@ -462,7 +460,6 @@ let set_category table index category =
       !(table.data);
   save_tasks table
 
-(** Function to set a task's progress *)
 let set_progress table index progress =
   if index < 0 || index >= List.length !(table.data) then raise InvalidTaskIndex
   else
