@@ -125,3 +125,7 @@ val set_progress : t -> int -> string -> unit
 val string_from_table : t -> string
 (** [string_from_table table] is a string representation of the [table] in a
     nice format. *)
+
+val get_path : t -> string
+(** [get_path table] is the path of the csv. Returns an empty string if the path
+    is invalid*)

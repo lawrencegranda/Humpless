@@ -498,3 +498,8 @@ let string_from_table table =
   rows_as_string
     ([ "Id"; "Name"; "Description"; "Date"; "Time"; "Category"; "Progress" ]
     :: data)
+
+let get_path t =
+  match t.path with
+  | None -> ""
+  | Some p -> p
