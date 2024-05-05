@@ -1,5 +1,8 @@
 open Final_project.Table
 
+(** [print_table table] prints the tasks in [table] to the terminal. *)
+let print_table table = print_endline (string_from_table table)
+
 let print_my_table table =
   print_table table;
   print_endline ""
