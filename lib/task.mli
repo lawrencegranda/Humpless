@@ -2,8 +2,16 @@ type t
 (**[t] is the type of a task *)
 
 exception InvalidDateFormat
+(** Exception raised when an invalid date format is encountered. Valid if it
+    follows ["YYYY-MM-DD"] formatting.*)
+
 exception InvalidTimeFormat
+(** Exception raised when an invalid time format is encountered. Valid if it
+    follows ["HH:MM:SS"] formatting.*)
+
 exception InvalidProgress
+(** Exception raised when an invalid progress value is provided. Valid if it is
+    one of [["done"; "in-progress"; "todo"]] *)
 
 (*Getter functions*)
 val name : t -> string

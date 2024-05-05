@@ -1,4 +1,57 @@
-(** [max_width] is the maximum number of characters to be printed for a value *)
+type data = {
+  idx : int; (* Index of the task. *)
+  task : Task.t; (* Details of the task. *)
+}
+(** Represents a single task [Task.t] along with its index [idx] in the table. *)
+
+type comparator = data -> data -> int
+(** A function that compares two [data] values and returns an [int]. *)
+
+type predicate = data -> bool
+(** A function that takes a [data] value and returns a [bool]. *)
+
+(** Represents the criteria by which tasks can be sorted. *)
+type sorting =
+  | Name (* Sort by name. *)
+  | Description (* Sort by description. *)
+  | Date (* Sort by date. *)
+  | Time  (** Sort by time. *)
+  | Category (* Sort by category. *)
+  | Progress (* Sort by progress. *)
+  | Other of comparator (* Custom sorting based on a comparator function. *)
+
+type t = {
+  path : string option; (* Path to store the table as a csv *)
+  data : data list ref; (* List of the tasks *)
+  mutable sorting : sorting; (* Sorting mode *)
+  mutable filter : predicate; (* Filter predicate *)
+}
+(** Abstraction Function: A table [{path; data; sorting; filter}] has the
+    following properties:
+    - The [Table.t] represents a collection of [data] tasks.
+    - Each task in the table is represented by a data record containing an index
+      (idx) and a [Task.t] record.
+    - The table can be sorted and filtered based on different criteria.
+    - The [sorting] and [filter] criteria can be modified.
+
+    Representation Invariant:
+    - The index (idx) of each data record is unique within the table and must be
+      non-negative and smaller than the total number of tasks.
+    - Any time the table is given to the client, the table's data list is sorted
+      based on the current sorting criteria.
+    - The [filter] predicate should return [true] for data records that should
+      be included in the table represneation and [false] for those that should
+      be excluded.
+    - The path should be a valid file [path] or [None]. *)
+
+exception InvalidTaskIndex
+exception InvalidDateFormat
+exception InvalidTimeFormat
+exception InvalidProgress
+exception InvalidPermissions of string
+exception InvalidHeaders
+
+(** [max_width] is the maximum number of characters to be printed for a value. *)
 let max_width = 22
 
 (** [truncate_str str] is [str] with [max_width] characters and appends ["..."]
@@ -7,52 +60,23 @@ let truncate_str str =
   if String.length str <= max_width then str
   else String.sub str 0 (max_width - 3) ^ "..."
 
-(** [format_cell str] is [str] truncated by the max_width*)
+(** [format_cell str] is [str] truncated by the [max_width]. *)
 let format_cell str = Printf.sprintf "%-*s" max_width (truncate_str str)
 
+(** [list_as_string lst] is a [string] representation of a 1-dimensional [list]
+    or row. *)
 let list_as_string lst =
   String.trim (List.fold_left (fun acc e -> acc ^ "   " ^ format_cell e) "" lst)
 
+(** [rows_as_string rows] is a [string] representation of a 2-dimensional
+    [list]. *)
 let rows_as_string rows =
   String.trim
     (List.fold_left (fun acc row -> acc ^ "\n" ^ list_as_string row) "" rows)
 
-(* - filtering *)
-(* - check a task (use built-in task function, to be coded) *)
-(* - encapsulate table *)
-(* - comment *)
-
-type data = {
-  idx : int;
-  task : Task.t;
-}
-
-type comparator = data -> data -> int
-type predicate = data -> bool
-
-type sorting =
-  | Name
-  | Description
-  | Date
-  | Time
-  | Category
-  | Progress
-  | Other of comparator
-
-type table = {
-  path : string option;
-  data : data list ref;
-  mutable sorting : sorting;
-  mutable filter : predicate;
-}
-
-exception InvalidTaskIndex
-exception InvalidDateFormat
-exception InvalidTimeFormat
-exception InvalidProgress
-exception InvalidPermissions of string
-
-(** Function to read tasks from a CSV file *)
+(** [load_tasks path] is a list of [Task.t] tasks from the csv file located at
+    [path]. If the [path] is invalid or the data is wrongly formatted, it will
+    raise an exception and abort. *)
 let load_tasks path =
   let lines = Csv.load path in
   let headers, rows =
@@ -62,7 +86,7 @@ let load_tasks path =
   in
   if
     headers <> [ "Name"; "Description"; "Date"; "Time"; "Category"; "Progress" ]
-  then failwith "Invalid CSV header format"
+  then raise InvalidHeaders
   else
     List.map
       (fun row ->
@@ -76,7 +100,7 @@ let load_tasks path =
         | e -> raise e)
       rows
 
-(** Function to write tasks to a CSV file *)
+(** Function to write tasks to a CSV file. Raises *)
 let save_tasks table =
   match table.path with
   | None -> ()
@@ -294,7 +318,12 @@ let sort_default table =
 
 let make_table ?(autosave = true) path =
   let tasks = ref [] in
-  (try tasks := load_tasks path with _ -> ());
+  (try tasks := load_tasks path with
+  | InvalidDateFormat -> raise InvalidDateFormat
+  | InvalidTimeFormat -> raise InvalidTimeFormat
+  | InvalidProgress -> raise InvalidProgress
+  | InvalidHeaders -> raise InvalidHeaders
+  | _ -> ());
   let data = ref (List.mapi (fun idx task -> { idx; task }) !tasks) in
   let table =
     {
@@ -451,7 +480,7 @@ let set_progress table index progress =
       !(table.data);
   save_tasks table
 
-let print_table table =
+let string_from_table table =
   sort_default table;
   let data = filter_default table in
   let data =
@@ -469,9 +498,6 @@ let print_table table =
         ])
       data
   in
-  let str =
-    rows_as_string
-      ([ "Id"; "Name"; "Description"; "Date"; "Time"; "Category"; "Progress" ]
-      :: data)
-  in
-  print_endline str
+  rows_as_string
+    ([ "Id"; "Name"; "Description"; "Date"; "Time"; "Category"; "Progress" ]
+    :: data)
