@@ -9,11 +9,41 @@ let print_help_message tab =
    ^ ": \n- add a task\n- edit a task\n- remove a task \n- filter the table \n"
     )
 
-(* let execute_command command tab = let arg_list = String.split_on_char ' '
-   command in let _ = print_endline (List.hd arg_list) in match List.hd arg_list
-   with | "add" -> failwith "Not impl" | "edit" -> failwith "Not impl" |
-   "delete" -> failwith "Not impl" | "filter" -> failwith "Not impl" | _ ->
-   print_endline "Sorry, that's an invalid command."; print_help_message tab *)
+let tab = make_table "data/myinput.csv"
+
+let print_styles output style1 style2 =
+  ANSITerminal.print_string [ ANSITerminal.on_default; style1; style2 ] output
+
+let print_color output color = print_styles output ANSITerminal.Reset color
+
+let command_description command =
+  let instructions =
+    "Did you mean " ^ command ^ "?\nThe format for " ^ command ^ " is: "
+  in
+  let description =
+    match command with
+    | "add" ->
+        "add [name] [description] [due date] [time] [category] [progress]"
+    | "edit" -> "edit [ID] [category] [updated_value]"
+    | "delete" -> "delete [ID]"
+    | "filter" -> "filter [category]"
+    | _ -> failwith "Invalid Command"
+  in
+  let _ = print_color instructions ANSITerminal.cyan in
+  print_color (description ^ "\n") ANSITerminal.red
+
+let execute_command command tab =
+  let arg_list = String.split_on_char ' ' command in
+  match List.hd arg_list with
+  | "exit" -> exit 0
+  | "help" -> print_help_message (get_path tab)
+  | "add" -> if List.length arg_list <> 8 then command_description "add"
+  | "edit" -> failwith "Not impl"
+  | "delete" -> failwith "Not impl"
+  | "filter" -> failwith "Not impl"
+  | _ ->
+      print_endline "Sorry, that's an invalid command.";
+      print_help_message (get_path tab)
 
 let run_command () =
   try
@@ -29,9 +59,7 @@ let run_command () =
             print_endline "Sorry, no command detected";
             exit 0
         | Some c ->
-            if c = "exit" then exit 0;
-            if c = "help" then print_help_message !tab_name;
-            (* let _ = execute_command c in *)
+            let _ = execute_command c !tab in
             let _ = print_endline (string_from_table !tab) in
             read_command ()
       in
@@ -39,7 +67,6 @@ let run_command () =
       let (never_resolved : unit Lwt.t), _unused_resolver = Lwt.wait () in
       never_resolved
     in
-
     Lwt_main.run (process_table_ops ())
   with _ ->
     print_endline
