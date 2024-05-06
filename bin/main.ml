@@ -1,13 +1,15 @@
 open Final_project
 open Table
 
-(*main operations: - add task - edit task - remove task - filter task *)
-
 let print_styles output style1 style2 =
   ANSITerminal.print_string [ ANSITerminal.on_default; style1; style2 ] output
 
+(**[print_color output style color] prints [output] according to the specified
+   [style] and [color]*)
 let print_color output style color = print_styles output style color
 
+(**[print_table table] prints [table] with its headers in a blue font and its
+   data in the default font. Adds a newline before and after the table.*)
 let print_table tab =
   let string_lst = String.split_on_char '\n' (string_from_table tab) in
   print_color
@@ -16,6 +18,8 @@ let print_table tab =
   print_endline (String.concat "\n" (List.tl string_lst));
   print_newline ()
 
+(**[print_help_message table] prints a list of commands the user can run on
+   [table]*)
 let print_help_message tab =
   let _ =
     print_color
@@ -26,6 +30,8 @@ let print_help_message tab =
     "\n- add a task\n- edit a task\n- remove a task \n- filter the table \n"
     ANSITerminal.Reset ANSITerminal.cyan
 
+(**[command_description command] prints a message detailing the specific
+   formatting for the specified [command]*)
 let command_description command =
   let instructions =
     "Did you mean " ^ command ^ "?\nThe format for " ^ command ^ " is: "
@@ -43,12 +49,17 @@ let command_description command =
   print_color (description ^ "\n") ANSITerminal.Reset ANSITerminal.cyan
 
 (* ALLOW FOR MULTI WORD ENTRIES OML WTF BRUH DO NOT FORGET*)
+
+(**[add table args] adds the parameters specified in [args] to [table]. Prints
+   out [command_description add] if parameters in [args] are invaldd.*)
 let add tab args =
   try
     if Array.length args <> 7 then command_description "add"
     else add_task tab args.(1) args.(2) args.(3) args.(4) args.(5) args.(6)
   with _ -> command_description "add"
 
+(**[edit table args] edits [table] with the details specified in [args]. Prints
+   [command_description edit] if the parameters in [args] are invalid.*)
 let edit tab args =
   try
     if Array.length args <> 4 then command_description "edit"
@@ -63,12 +74,17 @@ let edit tab args =
       | _ -> failwith "Invalid input"
   with _ -> command_description "edit"
 
+(**[delete table args] deletes the task specified in [args] from [table]. Prints
+   out [command_description delete] if the parameters in [args] are invalid.*)
 let delete tab args =
   try
     if Array.length args <> 2 then command_description "delete"
     else remove_task tab (int_of_string args.(1))
   with _ -> command_description "delete"
 
+(**[filter table args] filters [table] according to the details in [args].
+   Prints out [command_description filter] if the parameters in [args] are
+   invalid.*)
 let filter tab args =
   try
     if args.(1) = "rm" then reset_filter tab
@@ -83,6 +99,8 @@ let filter tab args =
       | _ -> failwith "Invalid input"
   with _ -> command_description "filter"
 
+(**[execute_command command table] executes [command] on [table] and prints out
+   [command_description command] if [command] is invalid.*)
 let execute_command command tab =
   let arg_list = String.split_on_char ' ' command in
   let args = Array.of_list arg_list in
@@ -98,6 +116,9 @@ let execute_command command tab =
         ANSITerminal.cyan;
       print_help_message (get_path tab)
 
+(**[run_command] continuously takes in user input from [stdin] and applies them
+   to the table designated by the user. If an invalid table is provided, the
+   user is prompted to enter a valid input. Exits on ctrl + c or 'exit'.*)
 let run_command () =
   try
     let tab_name = ref Sys.argv.(1) in
