@@ -210,12 +210,12 @@ let test_set_due_date _ =
            else row)
          initial_matrix)
   in
-  assert_matrix_equal table expected_matrix;
-  (* Try setting an invalid date *)
-  try
-    Table.set_due_date table 0 "invalid_date";
-    failwith "InvalidDateFormat exception not raised"
-  with Table.InvalidDateFormat -> ()
+  assert_matrix_equal table expected_matrix
+
+let test_set_invalid_date _ =
+  let table = initial_table () in
+  assert_raises Table.InvalidDateFormat (fun () ->
+      Table.set_due_date table 0 "invalid_date")
 
 let test_set_time _ =
   let table = initial_table () in
@@ -237,12 +237,61 @@ let test_set_time _ =
            else row)
          initial_matrix)
   in
-  assert_matrix_equal table expected_matrix;
-  (* Try setting an invalid time *)
-  try
-    Table.set_time table 0 "invalid_time";
-    failwith "Table.InvalidTimeFormat exception not raised"
-  with Table.InvalidTimeFormat -> ()
+  assert_matrix_equal table expected_matrix
+
+let test_set_invalid_time _ =
+  let table = initial_table () in
+  assert_raises Table.InvalidTimeFormat (fun () ->
+      Table.set_time table 0 "invalid_time")
+
+let test_set_category _ =
+  let table = initial_table () in
+  Table.set_category table 1 "Category F";
+  let expected_matrix =
+    sort_by_name
+      (List.map
+         (fun row ->
+           if List.hd row = "1" then
+             [
+               "1";
+               List.nth row 1;
+               List.nth row 2;
+               List.nth row 3;
+               List.nth row 4;
+               "Category F";
+               List.nth row 6;
+             ]
+           else row)
+         initial_matrix)
+  in
+  assert_matrix_equal table expected_matrix
+
+let test_set_progress _ =
+  let table = initial_table () in
+  Table.set_progress table 1 "todo";
+  let expected_matrix =
+    sort_by_name
+      (List.map
+         (fun row ->
+           if List.hd row = "1" then
+             [
+               "1";
+               List.nth row 1;
+               List.nth row 2;
+               List.nth row 3;
+               List.nth row 4;
+               List.nth row 5;
+               "todo";
+             ]
+           else row)
+         initial_matrix)
+  in
+  assert_matrix_equal table expected_matrix
+
+let test_set_invalid_progress _ =
+  let table = initial_table () in
+  assert_raises Table.InvalidProgress (fun () ->
+      Table.set_progress table 0 "invalid_progress")
 
 let basic_suite =
   "Basic Table Tests"
@@ -253,7 +302,12 @@ let basic_suite =
          "test_set_name" >:: test_set_name;
          "test_set_description" >:: test_set_description;
          "test_set_due_date" >:: test_set_due_date;
+         "test_set_invalid_date" >:: test_set_invalid_date;
          "test_set_time" >:: test_set_time;
+         "test_set_invalid_time" >:: test_set_invalid_time;
+         "test_set_category" >:: test_set_category;
+         "test_set_progress" >:: test_set_progress;
+         "test_set_invalid_progress" >:: test_set_invalid_progress;
        ]
 
 let test_reset_filter _ =
@@ -347,6 +401,18 @@ let test_filter_by_progress _ =
   assert_matrix_equal table expected_matrix;
   Table.reset_filter table
 
+let test_exclude_progress _ =
+  let table = initial_table () in
+  let progress = "done" in
+  Table.exclude_progress table progress;
+  let expected_matrix =
+    List.filter
+      (fun task -> List.nth task 6 <> progress)
+      (sort_by_name initial_matrix)
+  in
+  assert_matrix_equal table expected_matrix;
+  Table.reset_filter table
+
 let filter_suite =
   "Filter Tests"
   >::: [
@@ -358,6 +424,7 @@ let filter_suite =
          "test_filter_due_before" >:: test_filter_due_before;
          "test_filter_by_category" >:: test_filter_by_category;
          "test_filter_by_progress" >:: test_filter_by_progress;
+         "test_exclude_progress" >:: test_exclude_progress;
        ]
 
 let test_sort_by_name _ =
