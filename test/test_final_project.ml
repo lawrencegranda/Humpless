@@ -1,5 +1,5 @@
 open OUnit2
-open Final_project.Table
+open Final_project
 
 let assign_indices matrix =
   List.mapi
@@ -52,13 +52,13 @@ let print_matrix matrix =
     "" matrix
 
 let initial_table () =
-  let table = make_table ~autosave:false "" in
-  add_task table "Task 1" "Description 1" "2024-05-10" "10:00:00" "Category A"
-    "todo";
-  add_task table "Task 2" "Description 2" "2024-05-08" "11:30:00" "Category B"
-    "in-progress";
-  add_task table "Task 3" "Description 3" "2024-05-07" "14:00:00" "Category C"
-    "done";
+  let table = Table.make_table ~autosave:false "" in
+  Table.add_task table "Task 1" "Description 1" "2024-05-10" "10:00:00"
+    "Category A" "todo";
+  Table.add_task table "Task 2" "Description 2" "2024-05-08" "11:30:00"
+    "Category B" "in-progress";
+  Table.add_task table "Task 3" "Description 3" "2024-05-07" "14:00:00"
+    "Category C" "done";
   table
 
 let initial_matrix =
@@ -92,8 +92,8 @@ let initial_matrix =
     ];
   ]
 
-let assert_matrix_equal actual expected =
-  assert_equal (matrix_from_table actual) expected ~printer:print_matrix
+let assert_matrix_equal real expected =
+  assert_equal (Table.matrix_from_table real) expected ~printer:print_matrix
 
 let test_creation _ =
   let table = initial_table () in
@@ -103,8 +103,8 @@ let test_creation _ =
 
 let test_add_task _ =
   let table = initial_table () in
-  add_task table "Task 4" "Description 4" "2024-05-09" "12:00:00" "Category D"
-    "todo";
+  Table.add_task table "Task 4" "Description 4" "2024-05-09" "12:00:00"
+    "Category D" "todo";
   let expected_matrix =
     sort_by_name
       (initial_matrix
@@ -121,17 +121,17 @@ let test_add_task _ =
         ])
   in
   assert_matrix_equal table expected_matrix;
-  remove_task table 3
+  Table.remove_task table 3
 
 let test_remove_task _ =
   let table = initial_table () in
   let expected_matrix = sort_by_name (List.tl initial_matrix) in
-  remove_task table 0;
+  Table.remove_task table 0;
   assert_matrix_equal table expected_matrix
 
 let test_set_name _ =
   let table = initial_table () in
-  set_name table 1 "Updated Task 2";
+  Table.set_name table 1 "Updated Task 2";
   let expected_matrix =
     sort_by_name
       (List.map
@@ -153,7 +153,7 @@ let test_set_name _ =
 
 let test_set_description _ =
   let table = initial_table () in
-  set_description table 0 "Updated Description 1";
+  Table.set_description table 0 "Updated Description 1";
   let expected_matrix =
     sort_by_name
       (List.map
@@ -175,7 +175,7 @@ let test_set_description _ =
 
 let test_set_due_date _ =
   let table = initial_table () in
-  set_due_date table 2 "2024-05-11";
+  Table.set_due_date table 2 "2024-05-11";
   let expected_matrix =
     sort_by_name
       (List.map
@@ -196,13 +196,13 @@ let test_set_due_date _ =
   assert_matrix_equal table expected_matrix;
   (* Try setting an invalid date *)
   try
-    set_due_date table 0 "invalid_date";
+    Table.set_due_date table 0 "invalid_date";
     failwith "InvalidDateFormat exception not raised"
-  with InvalidDateFormat -> ()
+  with Table.InvalidDateFormat -> ()
 
 let test_set_time _ =
   let table = initial_table () in
-  set_time table 1 "15:00:00";
+  Table.set_time table 1 "15:00:00";
   let expected_matrix =
     sort_by_name
       (List.map
@@ -223,21 +223,112 @@ let test_set_time _ =
   assert_matrix_equal table expected_matrix;
   (* Try setting an invalid time *)
   try
-    set_time table 0 "invalid_time";
-    failwith "InvalidTimeFormat exception not raised"
-  with InvalidTimeFormat -> ()
+    Table.set_time table 0 "invalid_time";
+    failwith "Table.InvalidTimeFormat exception not raised"
+  with Table.InvalidTimeFormat -> ()
 
 let basic_suite =
   "Basic Table Tests"
   >::: [
          "test_creation" >:: test_creation;
-         "test_add_task" >:: test_add_task;
-         "test_remove_task" >:: test_remove_task;
+         "test_Table.add_task" >:: test_add_task;
+         "test_Table.remove_task" >:: test_remove_task;
          "test_set_name" >:: test_set_name;
          "test_set_description" >:: test_set_description;
          "test_set_due_date" >:: test_set_due_date;
          "test_set_time" >:: test_set_time;
        ]
 
-let suite = "Table Test Suite" >::: [ basic_suite ]
+let test_reset_filter _ =
+  let table = initial_table () in
+  Table.filter_by_name table "Task 1";
+  Table.reset_filter table;
+  let expected_matrix = sort_by_name initial_matrix in
+  assert_matrix_equal table expected_matrix
+
+let test_filter_by_name _ =
+  let table = initial_table () in
+  let name = "Task 1" in
+  Table.filter_by_name table name;
+  let expected_matrix =
+    List.filter
+      (fun task -> List.nth task 1 = name)
+      (sort_by_name initial_matrix)
+  in
+  assert_matrix_equal table expected_matrix;
+  Table.reset_filter table
+
+let test_filter_by_description _ =
+  let table = initial_table () in
+  let description = "Description 1" in
+  Table.filter_by_description table description;
+  let expected_matrix =
+    List.filter
+      (fun task -> List.nth task 2 = description)
+      (sort_by_name initial_matrix)
+  in
+  assert_matrix_equal table expected_matrix;
+  Table.reset_filter table
+
+let test_filter_due_after _ =
+  let table = initial_table () in
+  let date = "2024-05-08" in
+  Table.filter_due_after table date;
+  let expected_matrix =
+    List.filter
+      (fun task -> List.nth task 3 >= date)
+      (sort_by_name initial_matrix)
+  in
+  assert_matrix_equal table expected_matrix;
+  Table.reset_filter table
+
+let test_filter_due_before _ =
+  let table = initial_table () in
+  let date = "2024-05-09" in
+  Table.filter_due_before table date;
+  let expected_matrix =
+    List.filter
+      (fun task -> List.nth task 3 <= date)
+      (sort_by_name initial_matrix)
+  in
+  assert_matrix_equal table expected_matrix;
+  Table.reset_filter table
+
+let test_filter_by_category _ =
+  let table = initial_table () in
+  let category = "Category A" in
+  Table.filter_by_category table category;
+  let expected_matrix =
+    List.filter
+      (fun task -> List.nth task 5 = category)
+      (sort_by_name initial_matrix)
+  in
+  assert_matrix_equal table expected_matrix;
+  Table.reset_filter table
+
+let test_filter_by_progress _ =
+  let table = initial_table () in
+  let progress = "done" in
+  Table.filter_by_progress table progress;
+  let expected_matrix =
+    List.filter
+      (fun task -> List.nth task 6 = progress)
+      (sort_by_name initial_matrix)
+  in
+  assert_matrix_equal table expected_matrix;
+  Table.reset_filter table
+
+let filter_suite =
+  "Basic Filter Tests"
+  >::: [
+         "test_reset_filter" >:: test_reset_filter;
+         "test_filter_by_name" >:: test_filter_by_name;
+         "test_filter_by_description" >:: test_filter_by_description;
+         "test_filter_due_after" >:: test_filter_due_after;
+         "test_filter_due_before" >:: test_filter_due_before;
+         "test_filter_by_category" >:: test_filter_by_category;
+         "test_filter_by_progress" >:: test_filter_by_progress;
+       ]
+
+let suite = "Table Test Suite" >::: [ basic_suite; filter_suite ]
 let () = run_test_tt_main suite
