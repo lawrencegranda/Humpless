@@ -42,7 +42,24 @@ let sort_by_category matrix =
 
 let sort_by_progress matrix =
   assign_indices
-    (List.sort (fun a b -> String.compare (List.nth a 6) (List.nth b 6)) matrix)
+    (List.sort
+       (fun a b ->
+         let progress1 =
+           match List.nth a 6 with
+           | "todo" -> 0
+           | "in-progress" -> 1
+           | "done" -> 2
+           | _ -> 3
+         in
+         let progress2 =
+           match List.nth b 6 with
+           | "todo" -> 0
+           | "in-progress" -> 1
+           | "done" -> 2
+           | _ -> 3
+         in
+         progress1 - progress2)
+       matrix)
 (* Sort by progress (7th element) *)
 
 let print_matrix matrix =
@@ -330,6 +347,52 @@ let filter_suite =
          "test_filter_by_progress" >:: test_filter_by_progress;
        ]
 
-let sorting_suite = "Sorting Tests" >::: []
+let test_sort_by_name _ =
+  let table = initial_table () in
+  Table.sort_by_name table;
+  let expected_matrix = sort_by_name initial_matrix in
+  assert_matrix_equal table expected_matrix
+
+let test_sort_by_description _ =
+  let table = initial_table () in
+  Table.sort_by_description table;
+  let expected_matrix = sort_by_description initial_matrix in
+  assert_matrix_equal table expected_matrix
+
+let test_sort_by_date _ =
+  let table = initial_table () in
+  Table.sort_by_date table;
+  let expected_matrix = sort_by_date initial_matrix in
+  assert_matrix_equal table expected_matrix
+
+let test_sort_by_time _ =
+  let table = initial_table () in
+  Table.sort_by_time table;
+  let expected_matrix = sort_by_time initial_matrix in
+  assert_matrix_equal table expected_matrix
+
+let test_sort_by_category _ =
+  let table = initial_table () in
+  Table.sort_by_category table;
+  let expected_matrix = sort_by_category initial_matrix in
+  assert_matrix_equal table expected_matrix
+
+let test_sort_by_progress _ =
+  let table = initial_table () in
+  Table.sort_by_progress table;
+  let expected_matrix = sort_by_progress initial_matrix in
+  assert_matrix_equal table expected_matrix
+
+let sorting_suite =
+  "Sorting Tests"
+  >::: [
+         "test_sort_by_name" >:: test_sort_by_name;
+         "test_sort_by_description" >:: test_sort_by_description;
+         "test_sort_by_date" >:: test_sort_by_date;
+         "test_sort_by_time" >:: test_sort_by_time;
+         "test_sort_by_category" >:: test_sort_by_category;
+         "test_sort_by_progress" >:: test_sort_by_progress;
+       ]
+
 let suite = "Table Test Suite" >::: [ basic_suite; filter_suite; sorting_suite ]
 let () = run_test_tt_main suite
