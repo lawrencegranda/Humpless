@@ -319,7 +319,7 @@ let test_filter_by_progress _ =
   Table.reset_filter table
 
 let filter_suite =
-  "Basic Filter Tests"
+  "Filter Tests"
   >::: [
          "test_reset_filter" >:: test_reset_filter;
          "test_filter_by_name" >:: test_filter_by_name;
@@ -330,5 +330,6 @@ let filter_suite =
          "test_filter_by_progress" >:: test_filter_by_progress;
        ]
 
-let suite = "Table Test Suite" >::: [ basic_suite; filter_suite ]
+let sorting_suite = "Sorting Tests" >::: []
+let suite = "Table Test Suite" >::: [ basic_suite; filter_suite; sorting_suite ]
 let () = run_test_tt_main suite
