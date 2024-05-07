@@ -122,6 +122,14 @@ val set_progress : t -> int -> string -> unit
     [index]. Raises [InvalidProgress] if the correspondign field is wrongly
     formatted. *)
 
+val matrix_from_table : t -> string list list
+(** [matrix_from_table table] converts the given [table] of tasks into a matrix
+    of strings. The matrix is sorted and filtered based on the default sorting
+    and filtering criteria of the [table]. Each row in the matrix corresponds to
+    a task and contains the following columns (in order): 1. Task index (as an
+    integer) 2. Task name 3. Task description 4. Task due date 5. Task time 6.
+    Task category 7. Task progress *)
+
 val string_from_table : t -> string
 (** [string_from_table table] is a string representation of the [table] in a
     nice format. *)

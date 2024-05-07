@@ -477,24 +477,25 @@ let set_progress table index progress =
       !(table.data);
   save_tasks table
 
-let string_from_table table =
+let matrix_from_table table =
   sort_default table;
   let data = filter_default table in
-  let data =
-    List.map
-      (fun data ->
-        let task = data.task in
-        [
-          string_of_int data.idx;
-          Task.name task;
-          Task.description task;
-          Task.due_date task;
-          Task.time task;
-          Task.category task;
-          Task.progress task;
-        ])
-      data
-  in
+  List.map
+    (fun data ->
+      let task = data.task in
+      [
+        string_of_int data.idx;
+        Task.name task;
+        Task.description task;
+        Task.due_date task;
+        Task.time task;
+        Task.category task;
+        Task.progress task;
+      ])
+    data
+
+let string_from_table table =
+  let data = matrix_from_table table in
   rows_as_string
     ([ "Id"; "Name"; "Description"; "Date"; "Time"; "Category"; "Progress" ]
     :: data)
