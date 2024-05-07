@@ -248,8 +248,8 @@ let basic_suite =
   "Basic Table Tests"
   >::: [
          "test_creation" >:: test_creation;
-         "test_Table.add_task" >:: test_add_task;
-         "test_Table.remove_task" >:: test_remove_task;
+         "test_add_task" >:: test_add_task;
+         "test_remove_task" >:: test_remove_task;
          "test_set_name" >:: test_set_name;
          "test_set_description" >:: test_set_description;
          "test_set_due_date" >:: test_set_due_date;
@@ -282,6 +282,18 @@ let test_filter_by_description _ =
   let expected_matrix =
     List.filter
       (fun task -> List.nth task 2 = description)
+      (sort_by_name initial_matrix)
+  in
+  assert_matrix_equal table expected_matrix;
+  Table.reset_filter table
+
+let test_filter_by_date _ =
+  let table = initial_table () in
+  let date = "2024-05-08" in
+  Table.filter_by_date table date;
+  let expected_matrix =
+    List.filter
+      (fun task -> List.nth task 3 = date)
       (sort_by_name initial_matrix)
   in
   assert_matrix_equal table expected_matrix;
@@ -341,6 +353,7 @@ let filter_suite =
          "test_reset_filter" >:: test_reset_filter;
          "test_filter_by_name" >:: test_filter_by_name;
          "test_filter_by_description" >:: test_filter_by_description;
+         "test_filter_by_date" >:: test_filter_by_date;
          "test_filter_due_after" >:: test_filter_due_after;
          "test_filter_due_before" >:: test_filter_due_before;
          "test_filter_by_category" >:: test_filter_by_category;

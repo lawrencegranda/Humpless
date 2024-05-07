@@ -38,6 +38,10 @@ val filter_by_description : t -> string -> unit
 (** [filter_by_description table description] filters tasks in [table] by
     [description]. *)
 
+val filter_by_date : t -> string -> unit
+(** [filter_by_date table date] filters tasks in [table] with dates exactly
+    [date]. *)
+
 val filter_due_after : t -> string -> unit
 (** [filter_due_after table date] filters tasks in [table] with due dates after
     [date]. *)

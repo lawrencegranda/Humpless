@@ -155,6 +155,15 @@ let filter_by_description table description =
   in
   filter_tasks_with_predicate table predicate
 
+let filter_by_date table date =
+  let date = String.trim (String.lowercase_ascii date) in
+  let predicate data =
+    let task = data.task in
+    let task_date = String.trim (String.lowercase_ascii (Task.due_date task)) in
+    Base.String.is_substring task_date ~substring:date
+  in
+  filter_tasks_with_predicate table predicate
+
 let filter_due_after table date =
   let date = String.trim (String.lowercase_ascii date) in
   let predicate data =
