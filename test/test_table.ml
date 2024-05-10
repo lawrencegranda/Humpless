@@ -80,12 +80,17 @@ let load_invalid_headers _ =
   assert_raises Table.InvalidHeaders (fun () ->
       Table.make_table ~autosave:false "invalid.csv")
 
+let load_no_permissions _ =
+  assert_raises (Table.InvalidPermissions "test1.csv: Permission denied")
+    (fun () -> Table.make_table ~autosave:true "test1.csv")
+
 let loading_suite =
   "Loading CSV Tests"
   >::: [
          "test_load_empty" >:: load_empty;
          "test_aload_non_empty" >:: load_non_empty;
          "load_invalid_headers" >:: load_invalid_headers;
+         "load_no_permissions" >:: load_no_permissions;
        ]
 
 let initial_table () =
@@ -165,7 +170,9 @@ let test_remove_task _ =
   let table = initial_table () in
   let expected_matrix = sort_by_name (List.tl initial_matrix) in
   Table.remove_task table 0;
-  assert_matrix_equal table expected_matrix
+  assert_matrix_equal table expected_matrix;
+  assert_raises Table.InvalidTaskIndex (fun () -> Table.remove_task table (-1));
+  assert_raises Table.InvalidTaskIndex (fun () -> Table.remove_task table 100)
 
 let test_set_name _ =
   let table = initial_table () in
