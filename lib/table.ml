@@ -487,3 +487,9 @@ let get_path t =
 
 let is_valid_id table index =
   if index < 0 || index >= List.length !(table.data) then false else true
+
+let is_valid_column col =
+  let valid_cols =
+    [ "ID"; "NAME"; "DESCRIPTION"; "DATE"; "TIME"; "CATEGORY"; "PROGRESS" ]
+  in
+  List.mem (String.uppercase_ascii col) valid_cols
