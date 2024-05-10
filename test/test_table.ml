@@ -475,4 +475,3 @@ let sorting_suite =
        ]
 
 let suite = "Table Test Suite" >::: [ basic_suite; filter_suite; sorting_suite ]
-let () = run_test_tt_main suite
