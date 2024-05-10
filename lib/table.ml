@@ -79,26 +79,29 @@ let rows_as_string rows =
     raise an exception and abort. *)
 let load_tasks path =
   let lines = Csv.load path in
-  let headers, rows =
-    match lines with
-    | [] -> ([], [])
-    | h :: t -> (h, t)
-  in
-  if
-    headers <> [ "Name"; "Description"; "Date"; "Time"; "Category"; "Progress" ]
-  then raise InvalidHeaders
+  if lines = [] then []
   else
-    List.map
-      (fun row ->
-        try
-          Task.create_task (List.nth row 0) (List.nth row 1) (List.nth row 2)
-            (List.nth row 3) (List.nth row 4) (List.nth row 5)
-        with
-        | Task.InvalidDateFormat -> raise InvalidDateFormat
-        | Task.InvalidTimeFormat -> raise InvalidTimeFormat
-        | Task.InvalidProgress -> raise InvalidProgress
-        | e -> raise e)
-      rows
+    let headers, rows =
+      match lines with
+      | [] -> ([], [])
+      | h :: t -> (h, t)
+    in
+    if
+      headers
+      <> [ "Name"; "Description"; "Date"; "Time"; "Category"; "Progress" ]
+    then raise InvalidHeaders
+    else
+      List.map
+        (fun row ->
+          try
+            Task.create_task (List.nth row 0) (List.nth row 1) (List.nth row 2)
+              (List.nth row 3) (List.nth row 4) (List.nth row 5)
+          with
+          | Task.InvalidDateFormat -> raise InvalidDateFormat
+          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
+          | Task.InvalidProgress -> raise InvalidProgress
+          | e -> raise e)
+        rows
 
 (** Function to write tasks to a CSV file. Raises *)
 let save_tasks table =
