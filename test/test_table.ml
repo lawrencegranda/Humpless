@@ -76,11 +76,16 @@ let load_non_empty _ =
   let table = Table.make_table ~autosave:false "test1.csv" in
   assert_equal 5 (List.length (Table.matrix_from_table table))
 
+let load_invalid_headers _ =
+  assert_raises Table.InvalidHeaders (fun () ->
+      Table.make_table ~autosave:false "invalid.csv")
+
 let loading_suite =
   "Loading CSV Tests"
   >::: [
          "test_load_empty" >:: load_empty;
          "test_aload_non_empty" >:: load_non_empty;
+         "load_invalid_headers" >:: load_invalid_headers;
        ]
 
 let initial_table () =

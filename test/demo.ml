@@ -29,11 +29,9 @@ add_task table "3110 prelim" "lectures 9-18" "2024-03-22" "11:30:00" "Tests"
   "done"
 ;;
 
-add_task table "Get gas" "for the car" "2024-03-23" "20:00:00" "Peersonal"
-  "todo"
+add_task table "Get gas" "for the car" "2024-03-23" "20:00:00" "Personal" "todo"
 ;;
-
-add_task table "Math homework" "" "2024-03-25" "11:00:40" "College" "TODO";;
+add_task table "Math homework" "" "2024-03-25" "16:00:00" "College" "TODO";;
 print_my_table table;;
 filter_by_name table "3110";;
 print_my_table table;;
