@@ -484,3 +484,6 @@ let get_path t =
   match t.path with
   | None -> ""
   | Some p -> p
+
+let is_valid_id table index =
+  if index < 0 || index >= List.length !(table.data) then false else true

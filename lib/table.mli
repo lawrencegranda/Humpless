@@ -141,3 +141,7 @@ val string_from_table : t -> string
 val get_path : t -> string
 (** [get_path table] is the path of the csv. Returns an empty string if the path
     is invalid*)
+
+val is_valid_id : t -> int -> bool
+(**[is_valid_id t id] is [true] if [t] contains a task with id [id] and [false]
+   otherwise.*)
