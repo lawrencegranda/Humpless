@@ -85,6 +85,7 @@ let invalid_dates =
     ("not enough digits year", "999-01-01");
     ("invalid month", "2000-13-01");
     ("invalid day", "2000-12-32");
+    ("one number", "2");
   ]
 
 let test_set_invalid_dates_list =
@@ -120,6 +121,7 @@ let invalid_times =
     ("not enough hours digits", "1:20:30");
     ("out of bounds minutes", "00:60:00");
     ("out of bounds seconds", "00:59:60");
+    ("one number", "2");
   ]
 
 let test_set_invalid_times_list =
