@@ -42,7 +42,7 @@ let get_input message =
 let rec get_valid input table =
   let retry () =
     let _ =
-      print_color "Invalid input. Please try again\n" ANSITerminal.Reset
+      print_color "Invalid input. Please try again\n" ANSITerminal.Bold
         ANSITerminal.cyan
     in
     get_valid input table
