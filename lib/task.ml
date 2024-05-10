@@ -23,25 +23,24 @@ let is_valid_progress progress =
   List.mem progress [ "done"; "in-progress"; "todo" ]
 
 (**[is_valid_date d] is [true] if [d] is a valid date in the (YYYY-MM-DD)
-   format. Raises [InvalidDateFormat] otherwise.*)
+   format. *)
 let is_valid_date date_str =
   let date_str = String.trim date_str in
   let len = String.length date_str in
-  if len <> 10 then raise InvalidDateFormat
+  if len <> 10 then false
   else
     try
       let year = int_of_string (String.sub date_str 0 4) in
       let month = int_of_string (String.sub date_str 5 2) in
       let day = int_of_string (String.sub date_str 8 2) in
       year >= 1000 && 1 <= month && month <= 12 && 1 <= day && day <= 31
-    with _ -> raise InvalidDateFormat
+    with _ -> false
 
-(**[is_valid_time t] is [true] if [t] is a valid time in the (HH:MM:SS) format.
-   Raises [InvalidTimeFormat] otherwise.*)
+(**[is_valid_time t] is [true] if [t] is a valid time in the (HH:MM:SS) format. *)
 let is_valid_time time_str =
   let time_str = String.trim time_str in
   let len = String.length time_str in
-  if len <> 8 then raise InvalidTimeFormat
+  if len <> 8 then false
   else
     try
       let hours = int_of_string (String.sub time_str 0 2) in
@@ -49,7 +48,7 @@ let is_valid_time time_str =
       let seconds = int_of_string (String.sub time_str 6 2) in
       0 <= hours && hours <= 23 && 0 <= minutes && minutes <= 59 && 0 <= seconds
       && seconds <= 59
-    with _ -> raise InvalidTimeFormat
+    with _ -> false
 
 (* Getter functions *)
 let name task = task.name
