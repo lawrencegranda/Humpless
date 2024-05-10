@@ -18,7 +18,6 @@ type sorting =
   | Time  (** Sort by time. *)
   | Category (* Sort by category. *)
   | Progress (* Sort by progress. *)
-  | Other of comparator (* Custom sorting based on a comparator function. *)
 
 type t = {
   path : string option; (* Path to store the table as a csv *)
@@ -99,8 +98,7 @@ let load_tasks path =
           with
           | Task.InvalidDateFormat -> raise InvalidDateFormat
           | Task.InvalidTimeFormat -> raise InvalidTimeFormat
-          | Task.InvalidProgress -> raise InvalidProgress
-          | e -> raise e)
+          | Task.InvalidProgress -> raise InvalidProgress)
         rows
 
 (** Function to write tasks to a CSV file. Raises *)
@@ -126,9 +124,7 @@ let save_tasks table =
         Csv.save path
           ([ "Name"; "Description"; "Date"; "Time"; "Category"; "Progress" ]
           :: data)
-      with
-      | Sys_error m -> raise (InvalidPermissions m)
-      | e -> raise e)
+      with Sys_error m -> raise (InvalidPermissions m))
 
 (** Function to filter tasks based on a predicate *)
 let filter_tasks_with_predicate table (predicate : predicate) =
@@ -231,12 +227,6 @@ let sort_table_with_comparator table (compare : comparator) =
   table.data := data;
   save_tasks table
 
-(** [sort_table table comparator] sorts tasks according to a custom compartor
-    function. *)
-let sort_table table (compare : comparator) =
-  sort_table_with_comparator table compare;
-  table.sorting <- Other compare
-
 let sort_by_name table =
   let compare d1 d2 =
     let task1 = d1.task in
@@ -331,7 +321,6 @@ let sort_default table =
   | Time -> sort_by_time table
   | Category -> sort_by_category table
   | Progress -> sort_by_progress table
-  | Other compare -> sort_table table compare
 
 let make_table ?(autosave = true) path =
   let tasks = ref [] in
@@ -366,8 +355,8 @@ let add_task table name description due_date time category progress =
     | Task.InvalidDateFormat -> raise InvalidDateFormat
     | Task.InvalidTimeFormat -> raise InvalidTimeFormat
     | Task.InvalidProgress -> raise InvalidProgress
-    | e -> raise e
   in
+
   push_task table task
 
 let remove_task table index =
@@ -396,11 +385,7 @@ let set_name table index name =
         let task = data.task in
         if data.idx = index then
           (* Update the task with the new name at the target index *)
-          try Task.set_name task name with
-          | Task.InvalidDateFormat -> raise InvalidDateFormat
-          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
-          | Task.InvalidProgress -> raise InvalidProgress
-          | e -> raise e)
+          Task.set_name task name)
       !(table.data);
   save_tasks table
 
@@ -413,11 +398,7 @@ let set_description table index description =
         let task = data.task in
         if data.idx = index then
           (* Update the task with the new description at the target index *)
-          try Task.set_description task description with
-          | Task.InvalidDateFormat -> raise InvalidDateFormat
-          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
-          | Task.InvalidProgress -> raise InvalidProgress
-          | e -> raise e)
+          Task.set_description task description)
       !(table.data);
   save_tasks table
 
@@ -430,11 +411,8 @@ let set_due_date table index due_date =
         let task = data.task in
         if data.idx = index then
           (* Update the task with the new due date at the target index *)
-          try Task.set_due_date task due_date with
-          | Task.InvalidDateFormat -> raise InvalidDateFormat
-          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
-          | Task.InvalidProgress -> raise InvalidProgress
-          | e -> raise e)
+          try Task.set_due_date task due_date
+          with Task.InvalidDateFormat -> raise InvalidDateFormat)
       !(table.data);
   save_tasks table
 
@@ -447,11 +425,8 @@ let set_time table index time =
         let task = data.task in
         if data.idx = index then
           (* Update the task with the new time at the target index *)
-          try Task.set_time task time with
-          | Task.InvalidDateFormat -> raise InvalidDateFormat
-          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
-          | Task.InvalidProgress -> raise InvalidProgress
-          | e -> raise e)
+          try Task.set_time task time
+          with Task.InvalidTimeFormat -> raise InvalidTimeFormat)
       !(table.data);
   save_tasks table
 
@@ -464,11 +439,7 @@ let set_category table index category =
         let task = data.task in
         if data.idx = index then
           (* Update the task with the new category at the target index *)
-          try Task.set_category task category with
-          | Task.InvalidDateFormat -> raise InvalidDateFormat
-          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
-          | Task.InvalidProgress -> raise InvalidProgress
-          | e -> raise e)
+          Task.set_category task category)
       !(table.data);
   save_tasks table
 
@@ -481,11 +452,8 @@ let set_progress table index progress =
         let task = data.task in
         if data.idx = index then
           (* Update the task with the new progress at the target index *)
-          try Task.set_progress task progress with
-          | Task.InvalidDateFormat -> raise InvalidDateFormat
-          | Task.InvalidTimeFormat -> raise InvalidTimeFormat
-          | Task.InvalidProgress -> raise InvalidProgress
-          | e -> raise e)
+          try Task.set_progress task progress
+          with Task.InvalidProgress -> raise InvalidProgress)
       !(table.data);
   save_tasks table
 
