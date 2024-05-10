@@ -142,9 +142,9 @@ val get_path : t -> string
 (** [get_path table] is the path of the csv. Returns an empty string if the path
     is invalid*)
 
-val is_valid_id : t -> int -> bool
-(**[is_valid_id t id] is [true] if [t] contains a task with id [id] and [false]
-   otherwise.*)
+val is_valid_id : t -> string -> bool
+(**[is_valid_id t id] is [true] if [t] contains a task with number
+   representation id [id] and [false] otherwise.*)
 
 val is_valid_column : string -> bool
 (**[is_valid_column t col] is [true] if [col] is a valid column name and [false]

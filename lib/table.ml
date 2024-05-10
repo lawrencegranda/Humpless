@@ -485,8 +485,11 @@ let get_path t =
   | None -> ""
   | Some p -> p
 
-let is_valid_id table index =
-  if index < 0 || index >= List.length !(table.data) then false else true
+let is_valid_id table index_str =
+  match int_of_string_opt index_str with
+  | None -> false
+  | Some index ->
+      if index < 0 || index >= List.length !(table.data) then false else true
 
 let is_valid_column col =
   let valid_cols =

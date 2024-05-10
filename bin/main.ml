@@ -50,7 +50,7 @@ let rec get_valid input table =
   match input with
   | "ID" ->
       let id = get_input "ID of task: " in
-      if is_valid_id table (int_of_string id) then id else retry ()
+      if is_valid_id table id then id else retry ()
   | "column" ->
       let col = get_input "Column: " in
       if is_valid_column col then col else retry ()
