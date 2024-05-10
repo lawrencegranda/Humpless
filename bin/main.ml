@@ -1,4 +1,5 @@
 open Final_project
+open Task
 open Table
 
 let print_styles output style1 style2 =
@@ -21,14 +22,19 @@ let print_table tab =
 (**[print_help_message table] prints a list of commands the user can run on
    [table]*)
 let print_help_message tab =
-  let _ =
-    print_color
-      ("Here are the operations you can conduct on " ^ tab ^ ": ")
-      ANSITerminal.Bold ANSITerminal.cyan
-  in
   print_color
-    "\n- add a task\n- edit a task\n- remove a task \n- filter the table \n"
-    ANSITerminal.Reset ANSITerminal.cyan
+    ("Here are the operations you can conduct on " ^ tab)
+    ANSITerminal.Reset ANSITerminal.cyan;
+  print_color ": \n- add/edit/remove" ANSITerminal.Bold ANSITerminal.cyan;
+  print_color " a task\n" ANSITerminal.Reset ANSITerminal.cyan;
+  print_color "- filter " ANSITerminal.Bold ANSITerminal.cyan;
+  print_color "the table \n" ANSITerminal.Reset ANSITerminal.cyan
+
+(* Prints [message] using and returns the user input to stdin*)
+let get_input message =
+  let () = print_color message ANSITerminal.Reset ANSITerminal.cyan in
+  let output = read_line () in
+  String.trim output
 
 (**[command_description command] prints a message detailing the specific
    formatting for the specified [command]*)
@@ -48,31 +54,56 @@ let command_description command =
   let _ = print_color instructions ANSITerminal.Bold ANSITerminal.cyan in
   print_color (description ^ "\n") ANSITerminal.Reset ANSITerminal.cyan
 
-(* ALLOW FOR MULTI WORD ENTRIES OML WTF BRUH DO NOT FORGET*)
+(**[get_valid input table] prompts the user for [input] until a valid input is
+   received. Requires [input] is one of ["ID"], ["due_date"], ["time"], or
+   ["progress"].*)
+let rec get_valid input table =
+  let retry () =
+    let _ =
+      print_color "Invalid input. Please try again\n" ANSITerminal.Reset
+        ANSITerminal.cyan
+    in
+    get_valid input table
+  in
+  match input with
+  | "ID" ->
+      let id = get_input "ID of task: " in
+      if is_valid_id table (int_of_string id) then id else retry ()
+  | "due_date" ->
+      let dd = get_input "Due Date [YYYY-MM-DD]: " in
+      if is_valid_date dd then dd else retry ()
+  | "time" ->
+      let t = get_input "Time [HH:MM:SS]: " in
+      if is_valid_time t then t else retry ()
+  | "progress" ->
+      let p = get_input "Progress [todo/done/in-progress]: " in
+      if is_valid_progress p then p else retry ()
+  | _ -> failwith "Invalid input"
 
 (**[add table args] adds the parameters specified in [args] to [table]. Prints
    out [command_description add] if parameters in [args] are invaldd.*)
-let add tab args =
-  try
-    if Array.length args <> 7 then command_description "add"
-    else add_task tab args.(1) args.(2) args.(3) args.(4) args.(5) args.(6)
-  with _ -> command_description "add"
+let add tab =
+  let name = get_input "Task Name: " in
+  let description = get_input "Description: " in
+  let due_date = get_valid "due_date" tab in
+  let time = get_valid "time" tab in
+  let category = get_input "Task Category: " in
+  let progress = get_valid "progress" tab in
+  add_task tab name description due_date time category progress
 
 (**[edit table args] edits [table] with the details specified in [args]. Prints
    [command_description edit] if the parameters in [args] are invalid.*)
-let edit tab args =
-  try
-    if Array.length args <> 4 then command_description "edit"
-    else
-      match args.(2) with
-      | "name" -> set_name tab (int_of_string args.(1)) args.(3)
-      | "description" -> set_description tab (int_of_string args.(1)) args.(3)
-      | "date" -> set_due_date tab (int_of_string args.(1)) args.(3)
-      | "time" -> set_time tab (int_of_string args.(1)) args.(3)
-      | "category" -> set_category tab (int_of_string args.(1)) args.(3)
-      | "progress" -> set_progress tab (int_of_string args.(1)) args.(3)
-      | _ -> failwith "Invalid input"
-  with _ -> command_description "edit"
+let edit tab =
+  let id = int_of_string (get_valid "ID" tab) in
+  let category = get_input "Category: " in
+  match String.uppercase_ascii category with
+  | "NAME" -> set_name tab id (get_input "Updated value: ")
+  | "DESCRIPTION" -> set_description tab id (get_input "Updated value: ")
+  | "DATE" -> set_due_date tab id (get_valid "due_date" tab)
+  | "TIME" -> set_time tab id (get_valid "time" tab)
+  | "CATEGORY" -> set_category tab id (get_input "Updated value: ")
+  | "PROGRESS" -> set_progress tab id (get_valid "progress" tab)
+  | _ -> failwith "Invalid input"
 
 (**[delete table args] deletes the task specified in [args] from [table]. Prints
    out [command_description delete] if the parameters in [args] are invalid.*)
@@ -107,8 +138,8 @@ let execute_command command tab =
   match List.hd arg_list with
   | "exit" -> exit 0
   | "help" -> print_help_message (get_path tab)
-  | "add" -> add tab args
-  | "edit" -> edit tab args
+  | "add" -> add tab
+  | "edit" -> edit tab
   | "delete" -> delete tab args
   | "filter" -> filter tab args
   | _ ->
@@ -123,6 +154,7 @@ let run_command () =
   try
     let tab_name = ref Sys.argv.(1) in
     let tab = ref (make_table ("data/" ^ !tab_name)) in
+
     (*handles repetitive (recusive) manipulations to tab*)
     let process_table_ops () =
       let rec read_command _ =
