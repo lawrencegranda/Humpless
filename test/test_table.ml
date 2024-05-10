@@ -68,6 +68,21 @@ let print_matrix matrix =
       acc ^ "\n" ^ List.fold_left (fun str a -> str ^ " " ^ a) "" list)
     "" matrix
 
+let load_empty _ =
+  let table = Table.make_table ~autosave:false "empty.csv" in
+  assert_equal 0 (List.length (Table.matrix_from_table table))
+
+let load_non_empty _ =
+  let table = Table.make_table ~autosave:false "test1.csv" in
+  assert_equal 5 (List.length (Table.matrix_from_table table))
+
+let loading_suite =
+  "Loading CSV Tests"
+  >::: [
+         "test_load_empty" >:: load_empty;
+         "test_aload_non_empty" >:: load_non_empty;
+       ]
+
 let initial_table () =
   let table = Table.make_table ~autosave:false "" in
   Table.add_task table "Task 1" "Description 1" "2024-05-10" "10:00:00"
@@ -76,6 +91,7 @@ let initial_table () =
     "Category B" "in-progress";
   Table.add_task table "Task 3" "Description 3" "2024-05-07" "14:00:00"
     "Category C" "done";
+  assert_equal "" (Table.get_path table);
   table
 
 let initial_matrix =
@@ -474,4 +490,6 @@ let sorting_suite =
          "test_sort_by_progress" >:: test_sort_by_progress;
        ]
 
-let suite = "Table Test Suite" >::: [ basic_suite; filter_suite; sorting_suite ]
+let suite =
+  "Table Test Suite"
+  >::: [ loading_suite; basic_suite; filter_suite; sorting_suite ]
