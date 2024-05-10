@@ -1,5 +1,5 @@
 (tests
- (names test_final_project demo)
+ (names test_suite)
  (libraries ounit2 final_project)
  (deps
   (glob_files *.csv)))
