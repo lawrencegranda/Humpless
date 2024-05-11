@@ -52,7 +52,7 @@ exception InvalidHeaders
 exception EmptyTable
 
 (** [max_width] is the maximum number of characters to be printed for a value. *)
-let max_width = 22
+let max_width = 21
 
 (** [truncate_str str] is [str] with [max_width] characters and appends ["..."]
     if [str] is longer (replaces last three chars with ["..."]). *)

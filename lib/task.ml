@@ -40,7 +40,7 @@ let is_valid_date date_str =
 let is_valid_time time_str =
   let time_str = String.trim time_str in
   let len = String.length time_str in
-  if len <> 8 then false
+  if len <> 8 || time_str.[2] <> ':' || time_str.[5] <> ':' then false
   else
     try
       let hours = int_of_string (String.sub time_str 0 2) in
