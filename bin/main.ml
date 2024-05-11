@@ -38,7 +38,8 @@ let get_input message =
 
 (**[get_valid input table] prompts the user for [input] until a valid input is
    received. Requires [input] is one of ["ID"], ["column"], ["due_date"],
-   ["time"], or ["progress"].*)
+   ["time"], or ["progress"]. Raises [EmptyTable] if an invalid input is
+   impossible (containing no valid IDs)*)
 let rec get_valid input table =
   let retry () =
     let _ =
@@ -90,8 +91,12 @@ let edit tab =
 
 (**[delete table args] deletes the task specified in [args] from [table].*)
 let delete tab =
-  let id = int_of_string (get_valid "ID" tab) in
-  remove_task tab id
+  try
+    let id = int_of_string (get_valid "ID" tab) in
+    remove_task tab id
+  with EmptyTable ->
+    print_color "You cannot delete from an empty table." ANSITerminal.Reset
+      ANSITerminal.cyan
 
 (**[filter table args] filters [table] according to the details in [args].*)
 let filter tab =

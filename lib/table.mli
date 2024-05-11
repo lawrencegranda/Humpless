@@ -28,6 +28,10 @@ exception InvalidHeaders
     correct headers:
     [["Name"; "Description"; "Date"; "Time"; "Category"; "Progress"]] *)
 
+exception EmptyTable
+(** Exception raised when an invalid operation is performed on an empty table.
+    (Deleting from a table with no tasks.)*)
+
 val reset_filter : t -> unit
 (** [reset_filter table] removes any applied filters on [table]. *)
 
@@ -144,7 +148,8 @@ val get_path : t -> string
 
 val is_valid_id : t -> string -> bool
 (**[is_valid_id t id] is [true] if [t] contains a task with number
-   representation id [id] and [false] otherwise.*)
+   representation id [id] and [false] otherwise. Throws [EmptyTable] if the
+   table is empty and no valid ID exists.*)
 
 val is_valid_column : string -> bool
 (**[is_valid_column t col] is [true] if [col] is a valid column name and [false]

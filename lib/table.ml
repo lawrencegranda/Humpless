@@ -49,6 +49,7 @@ exception InvalidTimeFormat
 exception InvalidProgress
 exception InvalidPermissions of string
 exception InvalidHeaders
+exception EmptyTable
 
 (** [max_width] is the maximum number of characters to be printed for a value. *)
 let max_width = 22
@@ -486,10 +487,12 @@ let get_path t =
   | Some p -> p
 
 let is_valid_id table index_str =
-  match int_of_string_opt index_str with
-  | None -> false
-  | Some index ->
-      if index < 0 || index >= List.length !(table.data) then false else true
+  if List.length !(table.data) = 0 then raise EmptyTable
+  else
+    match int_of_string_opt index_str with
+    | None -> false
+    | Some index ->
+        if index < 0 || index >= List.length !(table.data) then false else true
 
 let is_valid_column col =
   let valid_cols =
