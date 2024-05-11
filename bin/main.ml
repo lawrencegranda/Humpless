@@ -105,12 +105,12 @@ let filter tab =
   | "NAME" -> filter_by_name tab (get_input "Name of task: ")
   | "DESCRIPTION" -> filter_by_description tab (get_input "Description: ")
   | "DATE" -> (
-      let order = get_input "Before or after? (B/A)" in
-      match order with
+      let order = get_input "Before or after? (B/A) " in
+      match String.uppercase_ascii order with
       | "A" -> filter_due_after tab (get_valid "due_date" tab)
       | "B" -> filter_due_before tab (get_valid "due_date" tab)
       | _ ->
-          print_color "Filtering after." ANSITerminal.Reset ANSITerminal.cyan;
+          print_color "Filtering after.\n" ANSITerminal.Reset ANSITerminal.cyan;
           filter_due_after tab (get_valid "due_date" tab))
   | "CATEGORY" -> filter_by_category tab (get_input "Category: ")
   | "PROGRESS" -> filter_by_progress tab (get_valid "progress" tab)
@@ -142,6 +142,7 @@ let run_command () =
   try
     let tab_name = ref Sys.argv.(1) in
     let tab = ref (make_table ("data/" ^ !tab_name)) in
+    let _ = print_table !tab in
 
     (*handles repetitive (recusive) manipulations to tab*)
     let process_table_ops () =
