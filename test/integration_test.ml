@@ -1,3 +1,6 @@
+(* @authors Joyce Shen (js3696), Lawrence Granda Zarzuela (lg626), Lukas
+   Friedman (lsf58) *)
+
 open Final_project.Table
 open OUnit2
 

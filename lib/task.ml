@@ -1,3 +1,6 @@
+(* @authors Joyce Shen (js3696), Lawrence Granda Zarzuela (lg626), Lukas
+   Friedman (lsf58) *)
+
 type t = {
   mutable name : string;
   mutable description : string;

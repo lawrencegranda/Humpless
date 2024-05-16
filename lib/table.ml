@@ -1,3 +1,6 @@
+(* @authors Joyce Shen (js3696), Lawrence Granda Zarzuela (lg626), Lukas
+   Friedman (lsf58) *)
+
 type data = {
   idx : int; (* Index of the task. *)
   task : Task.t; (* Details of the task. *)

@@ -1,3 +1,6 @@
+(* @authors Joyce Shen (js3696), Lawrence Granda Zarzuela (lg626), Lukas
+   Friedman (lsf58) *)
+
 type t
 (** Represents a table of tasks.
     - Each task in the table has a name, description, due date, time, category,
