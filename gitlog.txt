@@ -1,3 +1,295 @@
+commit dfc0b2fbcd3bffc5a94999fde0b97fcc019ce745
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Sat May 11 13:59:18 2024 -0400
+
+    Update formatting requirements
+
+commit 40602ceed93ca8754e4bd5e59eb0f553ab586c25
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Sat May 11 13:43:27 2024 -0400
+
+    Modify filter
+
+commit a96e1de5e6c58fb64802959a79d234dce28d0fea
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Sat May 11 13:36:19 2024 -0400
+
+    Handle deletion from empty table
+
+commit efa210efd28c1dc1f2a7fb55123821c91a92ca7b
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 17:16:14 2024 -0400
+
+    Change instructions.
+
+commit e7de6636c766cd7532a005a4fdc23b344a89ae34
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 17:16:07 2024 -0400
+
+    Change valid id.
+
+commit e7faf269a7a7377d4ee91c53ae51260392edbbe1
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 17:04:56 2024 -0400
+
+    Comment integration.
+
+commit a33c58db3061eab0476292e80000645decbbcb04
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 15:23:13 2024 -0400
+
+    Write test plan.
+
+commit 0545dc633723c6b93dfa2d1906eba7f55c032153
+Merge: b035a3a c343069
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 15:22:05 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:lsf58/cs3110-final-project
+
+commit b035a3a29c096b40e8bf04b3896274efebdf20af
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 15:21:49 2024 -0400
+
+    Refactor tests.
+
+commit c343069a7f92c6be04567697112df6d11232d421
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Fri May 10 15:18:59 2024 -0400
+
+    Adjust main formatting
+
+commit 70c57aea09afe7650a1158f3314e2b909f729846
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Fri May 10 15:16:24 2024 -0400
+
+    Improve main i/o
+
+commit fadf292e95b07fe98dbd204a13a616b8137d33cb
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Fri May 10 15:01:58 2024 -0400
+
+    Updated table comp unit
+
+commit ce9583bc1dbad56044e05a1d77de1c44df6baf2a
+Merge: 975a174 50bd28b
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 14:39:50 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:lsf58/cs3110-final-project
+
+commit 975a174685bd46f01c1bb8227d1f35179e10c329
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 14:39:47 2024 -0400
+
+    Change csv.
+
+commit c37335a5d67a1496cb1244c69eb42222f585587b
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 14:39:33 2024 -0400
+
+    Remove unused comparator.
+
+commit 50bd28bf91948ba2a8f28752380fc3d0fd025644
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Fri May 10 14:39:00 2024 -0400
+
+    Modify input in main
+
+commit acbf427f9939918d2c994181f2dc22c8a4863c63
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 14:27:04 2024 -0400
+
+    Loading tests.
+
+commit 954fdf101be39160a58d7cdbd15cafd8c68c602d
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 14:26:54 2024 -0400
+
+    Bring back demo.
+
+commit a38f4fca3205bde35414bb2a8a3571367dc3e5e0
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 14:26:46 2024 -0400
+
+    Unused file.
+
+commit 3bf4bf24b617833f2da0843c8ae590acbcbdf9f7
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 14:26:35 2024 -0400
+
+    Fix empty CSV.
+
+commit ef420f45cea2f8afdc7519b32a70406049f19a50
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 14:14:00 2024 -0400
+
+    Exclude bisect coverage
+
+commit 78b8c33d401983f8a4c86c952b0cad8d9dd3cb04
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 14:13:47 2024 -0400
+
+    Add extra test.
+
+commit 4ecaa58e085550aa9fa8680606aabb9aa865c844
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 14:02:14 2024 -0400
+
+    Add bisect.
+
+commit 53b146d0b7854ab6e638e3a6a4f2e321efdc6cd8
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 14:02:07 2024 -0400
+
+    Task test suite.
+
+commit 3f11995d8dec98db22be49880a9490afd3ef86e6
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 14:01:53 2024 -0400
+
+    Refactor test suite.
+
+commit 0761473304391eede0e7e97035de50b74107ac9a
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Fri May 10 13:47:35 2024 -0400
+
+    Change valid functions.
+    
+    - Do not raise.
+
+commit e283c0b0f9e7c46346dd58b0fd906d07c91d9d8d
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Fri May 10 13:24:04 2024 -0400
+
+    Updated task.mli (un-encapsed)
+
+commit 641a52c64c61bd49305df05245ead8b12e3ecaab
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Tue May 7 17:53:31 2024 -0400
+
+    Test invalid inputs.
+
+commit 91536c791bfa06295e10be5c527e371ccfc697a7
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Tue May 7 17:44:02 2024 -0400
+
+    Filter by exact date.
+
+commit a4abfc791036a562c071ea949a6372adb69ed696
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Tue May 7 16:04:19 2024 -0400
+
+    Do more tests regarding sorting.
+
+commit 28a666df63c0115ae25fc01038d1c74d9b8df1d9
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Tue May 7 13:41:47 2024 -0400
+
+    Add placeholder for future tests.
+
+commit e707fcf2b52e01318037e2ebc1583d1a94e76ce5
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Tue May 7 13:41:37 2024 -0400
+
+    Remove unused table_ops
+
+commit 9f7bdfc0f65b7e0e6dc4b386b335619ab40f6fee
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Tue May 7 13:39:47 2024 -0400
+
+    Implement filter tests.
+
+commit a8627a5f59183bc902d58a3831349f304b6bc05d
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Tue May 7 13:09:35 2024 -0400
+
+    Basic testing.
+    
+    - Setters and adding.
+
+commit 505ea629fe2272037b100b14359fc9d406a8c4bb
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Tue May 7 13:09:17 2024 -0400
+
+    Add a matrix function.
+    
+    - Helpful for testing.
+
+commit 2cdb57ff1920bf9e7651580790b265b510fcde44
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Sun May 5 23:43:25 2024 -0400
+
+    Comment main
+
+commit cbe1693df304de9b6b810451ac4fdbc8f812af0f
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Sun May 5 23:28:36 2024 -0400
+
+    Update main (NOT ROBUST)
+    - commands are very picky, (cannot have multiword descriptions, etc)
+    - added color formatting
+    - will need to check filter by date
+
+commit 2993274c4ed0c8dff904d79b40c6a31f5dc6dcdf
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Sun May 5 22:15:06 2024 -0400
+
+    Update main
+
+commit ff1ffb1d312b8b1af7f9f2ddfe85a32dd28b661a
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Sun May 5 15:57:18 2024 -0400
+
+    Add get_path to Table
+    - Updates in main towards adding table operations
+
+commit 13591269748522cff8bfa09d81866fc7c603f968
+Merge: e631b8d 828274c
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sun May 5 15:08:21 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:lsf58/cs3110-final-project
+
+commit e631b8d2faae5c3b3d7a6b58efc73eed7fccdd81
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sun May 5 15:08:18 2024 -0400
+
+    Add to the demo.
+    
+    - Add more tasks.
+
+commit 828274ca2921e3abd9f738cadf2f81c56e3b36e1
+Author: js3696@cornell.edu <js3696@cornell.edu>
+Date:   Sun May 5 14:56:13 2024 -0400
+
+    Update main for basic i/o
+    - main continuously listens for user commands and exits on ctrl c or "exit"
+
+commit ec0ad83522467b447b7ddc9aaaad123018de8f39
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sun May 5 14:45:30 2024 -0400
+
+    Change comments and specs
+
+commit 17e7b0070dbb673e5dc1ff501b3c10e86fb364ba
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sun May 5 14:40:58 2024 -0400
+
+    Define printing.
+
+commit d719a97873feb1c1bf6f4c1b4fb3763c14e5da5b
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Sun May 5 14:40:52 2024 -0400
+
+    Add comments and move printing outside.
+
+commit f4b1b9692fcf11b62d123906dee2e18d2b205fb9
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
+Date:   Thu May 2 14:25:01 2024 -0400
+
+    Update gitlog.
+
 commit 0fe677e800cc536082bcb3c6e8cc4eda1f066c34
 Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
 Date:   Thu May 2 14:21:51 2024 -0400
@@ -206,7 +498,7 @@ Date:   Sun Mar 24 00:36:53 2024 -0400
     Add INSTALL.txt instructions
 
 commit 853f5bfb71086a77a03f56a77cd6cd736a0f817f
-Author: Lawrence Granda Zarzuela <lawrencegranda@gmail.com>
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
 Date:   Sat Mar 23 17:18:58 2024 -0400
 
     Wrote YAML file
@@ -225,13 +517,13 @@ Date:   Sat Mar 23 16:57:16 2024 -0400
 
 commit 4f8b9efb85e1b0557938acf40782d5581e343d20
 Merge: 1c3e0df 68d4a81
-Author: Lawrence Granda Zarzuela <lawrencegranda@gmail.com>
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
 Date:   Sat Mar 23 16:28:48 2024 -0400
 
     Merge branch 'main' of github.coecis.cornell.edu:lsf58/cs3110-final-project
 
 commit 1c3e0df35ca0e63195a964318d6c7ffecc1e27f6
-Author: Lawrence Granda Zarzuela <lawrencegranda@gmail.com>
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
 Date:   Sat Mar 23 16:27:20 2024 -0400
 
     Basic tests for table_ops
@@ -264,7 +556,7 @@ Date:   Sat Mar 23 16:20:00 2024 -0400
      Please enter the commit message for your changes. Lines starting
 
 commit 5870fa7fdaa37ad274e92a68a681a9e23c128c76
-Author: Lawrence Granda Zarzuela <lawrencegranda@gmail.com>
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
 Date:   Sat Mar 23 16:18:01 2024 -0400
 
     Refactored files
@@ -292,7 +584,7 @@ Date:   Sat Mar 23 16:05:16 2024 -0400
     Add a comment spec to from_csv
 
 commit 79fdd2f9679d250a974746ddabfc7639b355c856
-Author: Lawrence Granda Zarzuela <lawrencegranda@gmail.com>
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
 Date:   Sat Mar 23 16:04:24 2024 -0400
 
     Format strings
@@ -307,7 +599,7 @@ Date:   Sat Mar 23 16:00:21 2024 -0400
     Create functionality to create string from the rows
 
 commit b95de042b1cc1a309975df1140f654d8e32ce4e5
-Author: Lawrence Granda Zarzuela <lawrencegranda@gmail.com>
+Author: Lawrence Granda Zarzuela <lg626@cornell.edu>
 Date:   Sat Mar 23 15:44:36 2024 -0400
 
     Write from_csv function
@@ -327,7 +619,7 @@ Date:   Sat Mar 23 15:37:23 2024 -0400
     Create test csv file for testing prototype
 
 commit f5dac66bd16f7d205cea673c89918a6bcea5d5c4
-Author: Lawrence Granda <lawrencegranda@gmail.com>
+Author: Lawrence Granda <lg626@cornell.edu>
 Date:   Wed Mar 6 15:37:29 2024 -0500
 
     Add my name to README.md
